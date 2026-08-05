@@ -19,7 +19,6 @@ export default function DeckStudio() {
   const [dirty, setDirty] = useState(false);
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [state, setState] = useState<'idle' | 'gen' | 'done' | 'error'>('idle');
 
   const empty = items.length === 0;
   const currentPrompt = () => (dirty ? prompt : defaultPrompt);
@@ -39,24 +38,31 @@ export default function DeckStudio() {
     }
   }
 
-  // 예제 PPTX(정적 파일) 다운로드 — API 비용 없이 결과물 예시 제공
-  function downloadExample() {
+  const [lastDl, setLastDl] = useState<string | null>(null);
+
+  // 같은 프롬프트로 3개 AI가 만든 예시 pptx 다운로드 (API 비용 없음)
+  function downloadPptx(file: string, fileName: string, label: string) {
     const a = document.createElement('a');
-    a.href = '/example-lecture.pptx';
-    a.download = '강의자료_예제.pptx';
+    a.href = file;
+    a.download = fileName;
     document.body.appendChild(a);
     a.click();
     a.remove();
-    setState('done');
-    setTimeout(() => setState('idle'), 2500);
+    setLastDl(label);
+    setTimeout(() => setLastDl(null), 2500);
   }
+
+  const EXAMPLES: { label: string; file: string; name: string }[] = [
+    { label: 'Claude', file: '/example-claude.pptx', name: '강의자료_Claude.pptx' },
+    { label: 'ChatGPT', file: '/example-chatgpt.pptx', name: '강의자료_ChatGPT.pptx' },
+    { label: 'Gemini', file: '/example-gemini.pptx', name: '강의자료_Gemini.pptx' },
+  ];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
       <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--lh-normal)' }}>
         지식그래프에서 <strong>바구니에 담은 활동</strong>으로 강의 PPTX 제작 프롬프트를 만들어 드립니다.
-        <strong> 프롬프트를 복사해 본인 AI(ChatGPT·Gemini 등)에 붙여넣으면</strong> 제목·목차·동기유발·활동 자료 링크·결론까지 담긴 강의자료를 만들 수 있습니다.
-        결과물 예시는 <strong>예제 PPTX</strong>로 내려받아 확인하세요.
+        <strong> 프롬프트를 복사해 본인 AI에 붙여넣으면</strong> 제목·목차·동기유발·활동 자료 링크·결론까지 담긴 강의자료를 만들 수 있습니다.
       </p>
 
       {empty && (
@@ -69,12 +75,23 @@ export default function DeckStudio() {
         <button onClick={openModal} disabled={empty} style={{ ...btn, ...primaryBtn, opacity: empty ? 0.5 : 1 }}>
           📝 프롬프트 보기·복사
         </button>
-        <button onClick={downloadExample} style={{ ...btn, ...secondaryBtn }}>
-          {state === 'done' ? '내려받음 ✓' : '📥 예제 PPTX 내려받기'}
-        </button>
         <span style={{ alignSelf: 'center', fontSize: 'var(--fs-xs)', color: 'var(--color-text-muted)' }}>
           담은 활동 {items.length}개
         </span>
+      </div>
+
+      {/* 같은 프롬프트 → 3개 AI 결과 비교 다운로드 */}
+      <div style={{ marginTop: 'var(--space-2)', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+        <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)' }}>
+          🔬 같은 프롬프트로 만든 3개 AI 결과 비교(예시 다운로드)
+        </span>
+        <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+          {EXAMPLES.map((ex) => (
+            <button key={ex.label} onClick={() => downloadPptx(ex.file, ex.name, ex.label)} style={{ ...btn, ...secondaryBtn }}>
+              {lastDl === ex.label ? `${ex.label} 내려받음 ✓` : `📥 ${ex.label}`}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* 프롬프트 팝업 */}
