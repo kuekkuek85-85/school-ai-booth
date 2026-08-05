@@ -16,6 +16,7 @@ import {
 } from '@/lib/data/graph';
 import { ALL_STANDARD_CODES, lessonsForStandard } from '@/lib/data/standards';
 import { GRAPH } from '@/lib/theme/tokens';
+import * as THREE from 'three';
 import { useBasket } from '@/lib/booth/basket';
 import { publishBasket } from '@/lib/booth/publish';
 import GraphSidePanel from '@/components/booth/GraphSidePanel';
@@ -24,6 +25,18 @@ import ListFallback from '@/components/booth/ListFallback';
 import type { ContentId } from '@/lib/theme/tokens';
 
 const NODE_BUDGET = 200;
+
+// 위계별 지오메트리(모양) — 재사용 위해 모듈 레벨 1회 생성
+const GEO: Record<string, THREE.BufferGeometry> = {
+  unit: new THREE.BoxGeometry(11, 11, 11), // 대단원 = 정육면체
+  standard: new THREE.OctahedronGeometry(6), // 성취기준 = 팔면체(다이아몬드)
+  content: new THREE.CylinderGeometry(5, 5, 8, 20), // 콘텐츠 = 원기둥
+  lesson: new THREE.ConeGeometry(5, 9, 4), // 차시 = 사각뿔(피라미드)
+  activity: new THREE.SphereGeometry(2.6, 14, 14), // 세부활동 = 작은 구
+};
+function geometryFor(kind: string): THREE.BufferGeometry {
+  return GEO[kind] ?? GEO.activity;
+}
 
 function linkKey(l: GLink) {
   return `${l.source}->${l.target}:${l.kind}`;
@@ -143,8 +156,15 @@ export default function KnowledgeGraph() {
         .width(el.clientWidth)
         .height(el.clientHeight)
         .nodeLabel((n: any) => `${n.label}`)
-        .nodeColor((n: any) => n.color)
-        .nodeVal((n: any) => (n.kind === 'unit' ? 8 : n.kind === 'standard' ? 4 : n.kind === 'activity' ? 1 : 2))
+        .nodeThreeObject((n: any) => {
+          const isBlink = n.kind === 'standard' && blinkIds.has(n.id);
+          const mat = new THREE.MeshLambertMaterial({
+            color: new THREE.Color(n.color),
+            emissive: new THREE.Color(isBlink ? '#fde047' : '#000000'),
+            emissiveIntensity: 0,
+          });
+          return new THREE.Mesh(geometryFor(n.kind), mat);
+        })
         .linkColor((l: any) => (l.style === 'dashed' ? GRAPH.linkDashed : GRAPH.link))
         .linkWidth((l: any) => (l.instructor ? 1.6 : 0.6))
         .linkOpacity(0.5)
@@ -160,30 +180,20 @@ export default function KnowledgeGraph() {
       window.addEventListener('resize', onResize);
       (g as any).__onResize = onResize;
 
-      // 연계 콘텐츠가 있는 성취기준 노드 깜빡임(눈에 띄게)
+      // 연계 콘텐츠가 있는 성취기준 노드 깜빡임(발광·크기 펄스)
       let blinkOn = false;
       const blinkTimer = setInterval(() => {
         const gg = graphRef.current;
         if (!gg) return;
         blinkOn = !blinkOn;
-        gg.nodeColor((n: any) =>
-          n.kind === 'standard' && blinkIds.has(n.id)
-            ? blinkOn
-              ? '#fde047'
-              : n.color
-            : n.color,
-        );
-        gg.nodeVal((n: any) =>
-          n.kind === 'unit'
-            ? 8
-            : n.kind === 'standard'
-              ? blinkOn && blinkIds.has(n.id)
-                ? 7
-                : 4
-              : n.kind === 'activity'
-                ? 1
-                : 2,
-        );
+        gg.graphData().nodes.forEach((n: any) => {
+          if (n.kind === 'standard' && blinkIds.has(n.id) && n.__threeObj) {
+            const mesh = n.__threeObj as THREE.Mesh;
+            const mat = mesh.material as THREE.MeshLambertMaterial;
+            mat.emissiveIntensity = blinkOn ? 0.9 : 0;
+            mesh.scale.setScalar(blinkOn ? 1.35 : 1);
+          }
+        });
       }, 550);
       (g as any).__blink = blinkTimer;
     })();

@@ -4,7 +4,7 @@ import { useBoothSession } from '@/lib/booth/session';
 import { BOOTH_ROUNDS } from '@/lib/data/missions';
 import { getContent } from '@/lib/data/content';
 
-const STEPS = ['접수 · 입장', '콘텐츠 체험', '학교 적용 사례', '의견조사 · 기념품'];
+const STEPS = ['접수 · 입장', '콘텐츠 체험', '학교 적용 사례', '자료실'];
 
 export default function Opening({ onExploreGraph }: { onExploreGraph?: () => void }) {
   const { round } = useBoothSession();
