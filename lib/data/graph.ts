@@ -104,7 +104,7 @@ export function expandStandard(code: string): GraphPatch {
     const l = getLesson(cid, lessonNo);
     const cId = contentId(cid);
     const lId = lessonId(cid, lessonNo);
-    const cUnit = code.slice(0, 5);
+    const cUnit = code.slice(0, 4);
 
     if (!seenContent.has(cId)) {
       seenContent.add(cId);
@@ -191,7 +191,7 @@ function nodeUnitForLesson(cid: ContentId, lessonNo: number): string {
       (r) => r.contentId === cid && r.lessonNo === lessonNo && r.relation === 'primary',
     ),
   );
-  return (refs[0] ?? '9정04').slice(0, 5);
+  return (refs[0] ?? '9정04').slice(0, 4);
 }
 
 /**

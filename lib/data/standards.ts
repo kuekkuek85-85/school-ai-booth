@@ -43,7 +43,7 @@ export const ALL_STANDARD_CODES: string[] = UNIT_CODES.flatMap((u) =>
 
 /** 성취기준 코드 → 전문. 없으면 코드 그대로 반환 */
 export function standardText(code: string): string {
-  const unit = code.slice(0, 5);
+  const unit = code.slice(0, 4);
   return STANDARDS[unit]?.codes[code] ?? code;
 }
 

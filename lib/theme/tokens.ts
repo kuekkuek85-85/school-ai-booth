@@ -37,9 +37,9 @@ export const UNIT_NAMES: Record<string, string> = {
   '9정05': '디지털 문화',
 };
 
-/** 성취기준 코드에서 대단원 코드 추출 (예: '9정04-02' → '9정04') */
+/** 성취기준 코드에서 대단원 코드 추출 (예: '9정04-02' → '9정04'). '9정0X'는 4글자. */
 export function unitOf(standardCode: string): string {
-  return standardCode.slice(0, 5);
+  return standardCode.slice(0, 4);
 }
 
 /** 성취기준/노드 색 조회 (대단원 색 기준) */

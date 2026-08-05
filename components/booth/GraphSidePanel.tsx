@@ -3,7 +3,7 @@
 import type { GNode } from '@/lib/data/graph';
 import { getLesson, type Activity } from '@/lib/data/content';
 import { standardText, lessonMapping, lessonsForStandard } from '@/lib/data/standards';
-import { activityId } from '@/lib/data/graph';
+import { activityId, lessonId } from '@/lib/data/graph';
 import type { BasketItem } from '@/lib/booth/basket';
 import type { ContentId } from '@/lib/theme/tokens';
 
@@ -11,9 +11,11 @@ interface Props {
   node: GNode | null;
   onAdd: (item: BasketItem) => void;
   has: (id: string) => boolean;
+  /** 항목 클릭 → 해당 그래프 노드로 이동(확장·확대) */
+  onFocusNode: (id: string) => void;
 }
 
-export default function GraphSidePanel({ node, onAdd, has }: Props) {
+export default function GraphSidePanel({ node, onAdd, has, onFocusNode }: Props) {
   if (!node) {
     return (
       <Aside>
@@ -35,12 +37,20 @@ export default function GraphSidePanel({ node, onAdd, has }: Props) {
         <Badge>성취기준</Badge>
         <h3 style={title}>{code}</h3>
         <p style={{ fontSize: 'var(--fs-sm)' }}>{standardText(code)}</p>
-        <h4 style={subTitle}>연계 차시 ({refs.length})</h4>
+        <h4 style={subTitle}>연계 차시 ({refs.length}) · 클릭하면 그래프에서 이동</h4>
         <ul style={list}>
           {refs.map((r) => (
-            <li key={`${r.contentId}-${r.lessonNo}`} style={{ fontSize: 'var(--fs-sm)' }}>
-              {r.contentId === 'dotvalley' ? '도트밸리' : '세계수'} {r.lessonNo}차시 · {getLesson(r.contentId, r.lessonNo).title}{' '}
-              {r.relation === 'secondary' && <em style={muted}>(보조)</em>}
+            <li key={`${r.contentId}-${r.lessonNo}`}>
+              <button
+                type="button"
+                onClick={() => onFocusNode(lessonId(r.contentId, r.lessonNo))}
+                style={focusBtn}
+              >
+                {r.contentId === 'dotvalley' ? '도트밸리' : '세계수'} {r.lessonNo}차시 ·{' '}
+                {getLesson(r.contentId, r.lessonNo).title}
+                {r.relation === 'secondary' && <em style={muted}> (보조)</em>}
+                <span style={{ color: 'var(--color-primary)' }}> ⊕</span>
+              </button>
             </li>
           ))}
         </ul>
@@ -60,7 +70,7 @@ export default function GraphSidePanel({ node, onAdd, has }: Props) {
         <h4 style={subTitle}>활동 ({lesson.activities.length})</h4>
         <ul style={list}>
           {lesson.activities.map((a) => (
-            <ActivityRow key={a.no} cid={cid} lessonNo={lessonNo} activity={a} standards={stds} onAdd={onAdd} has={has} />
+            <ActivityRow key={a.no} cid={cid} lessonNo={lessonNo} activity={a} standards={stds} onAdd={onAdd} has={has} onFocusNode={onFocusNode} />
           ))}
         </ul>
       </Aside>
@@ -77,7 +87,7 @@ export default function GraphSidePanel({ node, onAdd, has }: Props) {
         <Badge>활동</Badge>
         <h3 style={title}>{a.title}</h3>
         <ul style={list}>
-          <ActivityRow cid={cid} lessonNo={lessonNo} activity={a} standards={stds} onAdd={onAdd} has={has} />
+          <ActivityRow cid={cid} lessonNo={lessonNo} activity={a} standards={stds} onAdd={onAdd} has={has} onFocusNode={onFocusNode} />
         </ul>
       </Aside>
     );
@@ -100,6 +110,7 @@ function ActivityRow({
   standards,
   onAdd,
   has,
+  onFocusNode,
 }: {
   cid: ContentId;
   lessonNo: number;
@@ -107,13 +118,25 @@ function ActivityRow({
   standards: string[];
   onAdd: (item: BasketItem) => void;
   has: (id: string) => boolean;
+  onFocusNode?: (id: string) => void;
 }) {
   const id = activityId(cid, lessonNo, activity.no);
   const added = has(id);
   return (
     <li style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--fs-sm)' }}>
       <span aria-hidden>{activity.type === 'video' ? '🎬' : '🕹️'}</span>
-      <span style={{ flex: 1 }}>{activity.title}</span>
+      {onFocusNode ? (
+        <button
+          type="button"
+          onClick={() => onFocusNode(id)}
+          style={{ ...focusBtn, flex: 1 }}
+          title="그래프에서 이 활동 노드로 이동"
+        >
+          {activity.title}
+        </button>
+      ) : (
+        <span style={{ flex: 1 }}>{activity.title}</span>
+      )}
       <a href={activity.link} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary)' }}>
         열기 ↗
       </a>
@@ -173,3 +196,14 @@ const title: React.CSSProperties = { fontSize: 'var(--fs-lg)' };
 const subTitle: React.CSSProperties = { fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)', marginTop: 'var(--space-2)' };
 const list: React.CSSProperties = { display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', listStyle: 'none' };
 const muted: React.CSSProperties = { fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' };
+const focusBtn: React.CSSProperties = {
+  textAlign: 'left',
+  fontSize: 'var(--fs-sm)',
+  color: 'var(--color-text)',
+  background: 'var(--color-surface-2)',
+  border: '1px solid var(--color-border)',
+  borderRadius: 'var(--radius-sm)',
+  padding: 'var(--space-1) var(--space-2)',
+  cursor: 'pointer',
+  width: '100%',
+};

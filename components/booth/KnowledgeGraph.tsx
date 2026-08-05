@@ -3,16 +3,18 @@
  * S3 3D 지식그래프 — 초기 30노드(대단원+성취기준), 점진 확장(성능 예산 200노드 이하),
  * 사이드 패널, 재구성 바구니, 검색, 2D 폴백.
  */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   buildInitialGraph,
   expandStandard,
   expandLesson,
   activityNodeIds,
   searchNodeId,
+  stdId,
   type GNode,
   type GLink,
 } from '@/lib/data/graph';
+import { ALL_STANDARD_CODES, lessonsForStandard } from '@/lib/data/standards';
 import { GRAPH } from '@/lib/theme/tokens';
 import { useBasket } from '@/lib/booth/basket';
 import GraphSidePanel from '@/components/booth/GraphSidePanel';
@@ -109,6 +111,24 @@ export default function KnowledgeGraph() {
     [merge, apply, enforceBudget, focus],
   );
 
+  // 사이드 패널 항목 클릭 → 해당 노드 클릭 효과(확장 + 카메라 확대)
+  const focusNodeById = useCallback(
+    (id: string) => {
+      const node = nodesRef.current.get(id);
+      if (node) handleNode(node);
+    },
+    [handleNode],
+  );
+
+  // 실제 연계 콘텐츠가 있는 성취기준 노드(깜빡임 대상)
+  const blinkIds = useMemo(
+    () =>
+      new Set(
+        ALL_STANDARD_CODES.filter((c) => lessonsForStandard(c).length > 0).map((c) => stdId(c)),
+      ),
+    [],
+  );
+
   // 3D 그래프 초기화
   useEffect(() => {
     if (view !== '3d' || !containerRef.current) return;
@@ -138,6 +158,33 @@ export default function KnowledgeGraph() {
       const onResize = () => g.width(el.clientWidth).height(el.clientHeight);
       window.addEventListener('resize', onResize);
       (g as any).__onResize = onResize;
+
+      // 연계 콘텐츠가 있는 성취기준 노드 깜빡임(눈에 띄게)
+      let blinkOn = false;
+      const blinkTimer = setInterval(() => {
+        const gg = graphRef.current;
+        if (!gg) return;
+        blinkOn = !blinkOn;
+        gg.nodeColor((n: any) =>
+          n.kind === 'standard' && blinkIds.has(n.id)
+            ? blinkOn
+              ? '#fde047'
+              : n.color
+            : n.color,
+        );
+        gg.nodeVal((n: any) =>
+          n.kind === 'unit'
+            ? 8
+            : n.kind === 'standard'
+              ? blinkOn && blinkIds.has(n.id)
+                ? 7
+                : 4
+              : n.kind === 'activity'
+                ? 1
+                : 2,
+        );
+      }, 550);
+      (g as any).__blink = blinkTimer;
     })();
 
     return () => {
@@ -145,11 +192,12 @@ export default function KnowledgeGraph() {
       const g = graphRef.current;
       if (g) {
         if ((g as any).__onResize) window.removeEventListener('resize', (g as any).__onResize);
+        if ((g as any).__blink) clearInterval((g as any).__blink);
         g._destructor?.();
         graphRef.current = null;
       }
     };
-  }, [view, apply, handleNode]);
+  }, [view, apply, handleNode, blinkIds]);
 
   // 검색: 성취기준 코드 / 활동 제목
   const runSearch = useCallback(() => {
@@ -237,12 +285,12 @@ export default function KnowledgeGraph() {
               minHeight: 320,
             }}
           />
-          <GraphSidePanel node={selected} onAdd={basket.add} has={basket.has} />
+          <GraphSidePanel node={selected} onAdd={basket.add} has={basket.has} onFocusNode={focusNodeById} />
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 320px', gap: 'var(--space-3)' }}>
           <ListFallback onAdd={basket.add} has={basket.has} />
-          <GraphSidePanel node={selected} onAdd={basket.add} has={basket.has} />
+          <GraphSidePanel node={selected} onAdd={basket.add} has={basket.has} onFocusNode={focusNodeById} />
         </div>
       )}
 
