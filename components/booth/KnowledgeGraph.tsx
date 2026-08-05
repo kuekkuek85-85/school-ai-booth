@@ -331,27 +331,21 @@ export default function KnowledgeGraph() {
       </p>
 
       {view === '3d' ? (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0,1fr) 320px',
-            gap: 'var(--space-3)',
-            height: '62vh',
-          }}
-        >
+        <div className="graph-layout">
           <div
             ref={containerRef}
             style={{
               borderRadius: 'var(--radius-lg)',
               overflow: 'hidden',
               background: GRAPH.bg,
+              height: '62vh',
               minHeight: 320,
             }}
           />
           <GraphSidePanel node={selected} onAdd={addToBasket} has={basket.has} onFocusNode={focusNodeById} />
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 320px', gap: 'var(--space-3)' }}>
+        <div className="graph-layout">
           <ListFallback onAdd={addToBasket} has={basket.has} />
           <GraphSidePanel node={selected} onAdd={addToBasket} has={basket.has} onFocusNode={focusNodeById} />
         </div>
