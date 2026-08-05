@@ -1,4 +1,106 @@
-/* 기본 리셋 — 디자인 토큰은 T03에서 확장 */
+/* =========================================================================
+   디자인 토큰 (단일 지점) — 추후 design.md 개편 시 이 파일 + lib/theme/tokens.ts만 교체
+   인라인 색상 금지: 모든 색·타이포·모션은 아래 CSS 변수(var(--...))로만 사용
+   ========================================================================= */
+
+:root {
+  /* ---- 중립/표면 ---- */
+  --color-bg: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef1f5;
+  --color-border: #d9dee6;
+  --color-text: #1a202c;
+  --color-text-muted: #5b6472;
+  --color-text-invert: #ffffff;
+
+  /* ---- 상태 ---- */
+  --color-primary: #2563eb;          /* 기본 강조(테마에서 override) */
+  --color-primary-hover: #1d4ed8;
+  --color-primary-contrast: #ffffff;
+  --color-accent: #0ea5e9;           /* 보조 강조(테마에서 override) */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+
+  /* ---- "교사의 눈" 별색 ---- */
+  --color-teacher-eye: #eab308;
+
+  /* ---- 대단원 5색 (지식그래프 노드/칩) ---- */
+  --unit-cs: #3b82f6;       /* 9정01 컴퓨팅 시스템 */
+  --unit-data: #06b6d4;     /* 9정02 데이터 */
+  --unit-algo: #8b5cf6;     /* 9정03 알고리즘과 프로그래밍 */
+  --unit-ai: #f59e0b;       /* 9정04 인공지능 */
+  --unit-culture: #ec4899;  /* 9정05 디지털 문화 */
+
+  /* ---- 지식그래프 다크 캔버스 ---- */
+  --graph-bg: #0b1020;
+  --graph-fg: #e6e9f2;
+  --graph-link: #4b5573;
+  --graph-link-dashed: #7c86a3;
+
+  /* ---- 타이포 ---- */
+  --font-sans:
+    'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-mono: 'JetBrains Mono', 'D2Coding', ui-monospace, SFMono-Regular, monospace;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: 2.75rem;   /* 빔 모드 제목 */
+  --lh-tight: 1.25;
+  --lh-normal: 1.55;
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* ---- 간격/반경/그림자 ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 12px 24px -8px rgba(16, 24, 40, 0.18);
+
+  /* ---- 모션 ---- */
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 420ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
+}
+
+/* ---- 회차 테마: 도트밸리 = 탐험 그린 + 도트 모티프 ---- */
+.theme-dotvalley {
+  --color-primary: #16a34a;
+  --color-primary-hover: #15803d;
+  --color-accent: #4ade80;
+  --theme-tint: #e9f7ee;         /* 카드 헤더 등 옅은 배경 */
+  --theme-motif: radial-gradient(var(--color-accent) 1.2px, transparent 1.3px);
+}
+
+/* ---- 회차 테마: 세계수 = 숲 앰버 + 잎사귀 모티프 ---- */
+.theme-sos {
+  --color-primary: #d97706;
+  --color-primary-hover: #b45309;
+  --color-accent: #fbbf24;
+  --theme-tint: #fdf4e3;
+  --theme-motif: radial-gradient(var(--color-accent) 1.2px, transparent 1.3px);
+}
+
+/* =========================================================================
+   기본 리셋
+   ========================================================================= */
 *,
 *::before,
 *::after {
@@ -16,11 +118,13 @@ body {
 }
 
 body {
-  font-family:
-    'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-  line-height: 1.5;
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  color: var(--color-text);
+  background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -30,5 +134,22 @@ a {
 
 button {
   font: inherit;
+  color: inherit;
   cursor: pointer;
+  background: none;
+  border: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
