@@ -89,7 +89,7 @@ export default function Opening({ onExploreGraph }: { onExploreGraph?: () => voi
           badge="전환기 교육"
           title="학습 도장 모으기 — 통째로 완주"
           desc="전체 차시를 순서대로 완주하면 이수증 발급. 기말 이후 전환기 수업에 적합."
-          href={content.originUrl}
+          href={content.mapUrl}
           cta="학습 도장 모으기 열기 ↗"
         />
         <PathCard
