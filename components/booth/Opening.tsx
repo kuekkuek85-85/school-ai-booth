@@ -6,7 +6,7 @@ import { getContent } from '@/lib/data/content';
 
 const STEPS = ['접수 · 입장', '콘텐츠 체험', '학교 적용 사례', '의견조사 · 기념품'];
 
-export default function Opening() {
+export default function Opening({ onExploreGraph }: { onExploreGraph?: () => void }) {
   const { round } = useBoothSession();
   if (!round) return null;
   const r = BOOTH_ROUNDS[round];
@@ -90,12 +90,14 @@ export default function Opening() {
           title="학습 도장 모으기 — 통째로 완주"
           desc="전체 차시를 순서대로 완주하면 이수증 발급. 기말 이후 전환기 수업에 적합."
           href={content.originUrl}
+          cta="학습 도장 모으기 열기 ↗"
         />
         <PathCard
           badge="정규수업 재구성"
           title="성취기준에서 출발 — 딥링크 체험"
           desc="필요한 성취기준의 활동만 뽑아 재조합. 오늘은 이 경로로 미션을 체험합니다."
-          href={content.mapUrl}
+          onClick={onExploreGraph}
+          cta="지식그래프로 →"
           highlight
         />
       </div>
@@ -108,32 +110,35 @@ function PathCard({
   title,
   desc,
   href,
+  onClick,
+  cta = '열기 ↗',
   highlight,
 }: {
   badge: string;
   title: string;
   desc: string;
-  href: string;
+  href?: string;
+  onClick?: () => void;
+  cta?: string;
   highlight?: boolean;
 }) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        padding: 'var(--space-5)',
-        borderRadius: 'var(--radius-lg)',
-        background: highlight ? 'var(--theme-tint, var(--color-surface-2))' : 'var(--color-surface)',
-        border: `2px solid ${highlight ? 'var(--color-primary)' : 'var(--color-border)'}`,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--space-2)',
-        cursor: 'pointer',
-        transition: 'box-shadow var(--dur-fast) var(--ease-standard)',
-        boxShadow: 'var(--shadow-sm)',
-      }}
-    >
+  const cardStyle: React.CSSProperties = {
+    textAlign: 'left',
+    width: '100%',
+    padding: 'var(--space-5)',
+    borderRadius: 'var(--radius-lg)',
+    background: highlight ? 'var(--theme-tint, var(--color-surface-2))' : 'var(--color-surface)',
+    border: `2px solid ${highlight ? 'var(--color-primary)' : 'var(--color-border)'}`,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-2)',
+    cursor: 'pointer',
+    transition: 'box-shadow var(--dur-fast) var(--ease-standard)',
+    boxShadow: 'var(--shadow-sm)',
+  };
+
+  const inner = (
+    <>
       <span
         style={{
           alignSelf: 'flex-start',
@@ -147,8 +152,23 @@ function PathCard({
       <h4 style={{ fontSize: 'var(--fs-md)' }}>{title}</h4>
       <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>{desc}</p>
       <span style={{ marginTop: 'auto', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', color: 'var(--color-primary)' }}>
-        열기 ↗
+        {cta}
       </span>
+    </>
+  );
+
+  // 내부 이동(딥링크 체험 → 지식그래프)
+  if (onClick) {
+    return (
+      <button type="button" onClick={onClick} style={cardStyle}>
+        {inner}
+      </button>
+    );
+  }
+  // 외부 링크(학습 도장 모으기 → 콘텐츠 원본, 새 탭)
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" style={cardStyle}>
+      {inner}
     </a>
   );
 }

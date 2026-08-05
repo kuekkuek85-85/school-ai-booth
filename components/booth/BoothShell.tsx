@@ -61,7 +61,7 @@ export default function BoothShell() {
 function renderSection(id: string, goGraph: () => void) {
   switch (id) {
     case 'opening':
-      return <Opening />;
+      return <Opening onExploreGraph={goGraph} />;
     case 'missions':
       return <MissionBoard onExplore={goGraph} />;
     case 'case':
