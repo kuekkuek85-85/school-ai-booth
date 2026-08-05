@@ -134,6 +134,45 @@ export default function KnowledgeGraph() {
     [handleNode],
   );
 
+  // 바구니 담기 시 해당 활동 노드 버스트(확대 + 초록 발광 플래시)
+  const burstNode = useCallback((id: string) => {
+    const g = graphRef.current;
+    if (!g) return;
+    const node = g.graphData().nodes.find((n: any) => n.id === id);
+    const mesh: THREE.Mesh | undefined = node?.__threeObj;
+    if (!mesh) return;
+    const mat = mesh.material as THREE.MeshLambertMaterial;
+    const startColor = mat.emissive.clone();
+    const startIntensity = mat.emissiveIntensity;
+    const dur = 700;
+    let start = -1;
+    const step = (now: number) => {
+      if (start < 0) start = now;
+      const p = Math.min(1, (now - start) / dur);
+      const s = 1 + 2.2 * Math.sin(p * Math.PI); // 1 → 3.2 → 1
+      mesh.scale.setScalar(s);
+      mat.emissive.set('#22c55e');
+      mat.emissiveIntensity = (1 - p) * 1.2;
+      if (p < 1) {
+        requestAnimationFrame(step);
+      } else {
+        mesh.scale.setScalar(1);
+        mat.emissive.copy(startColor);
+        mat.emissiveIntensity = startIntensity;
+      }
+    };
+    requestAnimationFrame(step);
+  }, []);
+
+  // 담기 = 바구니 추가 + 노드 버스트
+  const addToBasket = useCallback(
+    (item: Parameters<typeof basket.add>[0]) => {
+      basket.add(item);
+      burstNode(item.id);
+    },
+    [basket, burstNode],
+  );
+
   // 실제 연계 콘텐츠가 있는 성취기준 노드(깜빡임 대상)
   const blinkIds = useMemo(
     () =>
@@ -274,8 +313,21 @@ export default function KnowledgeGraph() {
         </button>
       </header>
 
+      <p
+        style={{
+          fontSize: 'var(--fs-sm)',
+          background: 'var(--theme-tint, var(--color-surface-2))',
+          borderLeft: '3px solid var(--color-primary)',
+          borderRadius: 'var(--radius-sm)',
+          padding: 'var(--space-2) var(--space-3)',
+        }}
+      >
+        🔗 편의상 두 콘텐츠(<strong>도트밸리 속 버그를 잡아라</strong> + <strong>S.O.S 세계수를 구하라</strong>)를 한 그래프에 묶었습니다.
+        덕분에 <strong>두 콘텐츠를 넘나들며</strong> 같은 성취기준의 활동을 골라 <strong>수업을 융합·재구성</strong>할 수 있습니다.
+      </p>
+
       <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--color-text-muted)', display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
-        <span>대단원 5색 · 성취기준→차시(실선=primary, 점선=secondary) · 굵은 간선=강사 재구성안(도트밸리)</span>
+        <span>대단원 5색 · 위계별 모양(대단원=정육면체·성취기준=팔면체·차시=피라미드·활동=구) · 실선=primary, 점선=secondary · 굵은 간선=강사 재구성안(도트밸리)</span>
       </p>
 
       {view === '3d' ? (
@@ -296,12 +348,12 @@ export default function KnowledgeGraph() {
               minHeight: 320,
             }}
           />
-          <GraphSidePanel node={selected} onAdd={basket.add} has={basket.has} onFocusNode={focusNodeById} />
+          <GraphSidePanel node={selected} onAdd={addToBasket} has={basket.has} onFocusNode={focusNodeById} />
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 320px', gap: 'var(--space-3)' }}>
-          <ListFallback onAdd={basket.add} has={basket.has} />
-          <GraphSidePanel node={selected} onAdd={basket.add} has={basket.has} onFocusNode={focusNodeById} />
+          <ListFallback onAdd={addToBasket} has={basket.has} />
+          <GraphSidePanel node={selected} onAdd={addToBasket} has={basket.has} onFocusNode={focusNodeById} />
         </div>
       )}
 

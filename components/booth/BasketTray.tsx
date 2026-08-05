@@ -61,6 +61,7 @@ export default function BasketTray({ items, onRemove, onClear, exportMarkdown, o
         {items.map((it) => (
           <li
             key={it.id}
+            className="basket-chip"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
