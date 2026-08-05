@@ -47,14 +47,20 @@ function readProfile(): DemoProfile | null {
   }
 }
 
-function resolveSession(): string {
-  if (typeof window === 'undefined') return DEFAULT_SESSION;
+/**
+ * 세션 결정 우선순위: 명시적 `?s=` 쿼리(유효 시) > 저장 프로필 세션 > localStorage > 기본.
+ * 명시적 쿼리가 최우선이라, 재접속 학생이 `/demo?s=booth-1500`로 회차를 바꾸면 그대로 반영된다.
+ */
+function resolveSession(profile: DemoProfile | null): string {
+  if (typeof window === 'undefined') return profile?.sessionId || DEFAULT_SESSION;
   const q = new URLSearchParams(window.location.search).get('s');
   if (q && (DEMO_SESSIONS as readonly string[]).includes(q)) {
     window.localStorage.setItem(SESSION_KEY, q);
-    return q;
+    return q; // 명시적 쿼리 최우선
   }
-  return window.localStorage.getItem(SESSION_KEY) || DEFAULT_SESSION;
+  return (
+    profile?.sessionId || window.localStorage.getItem(SESSION_KEY) || DEFAULT_SESSION
+  );
 }
 
 export function DemoSessionProvider({ children }: { children: ReactNode }) {
@@ -64,10 +70,16 @@ export function DemoSessionProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const p = readProfile();
-    const s = resolveSession();
-    setProfile(p);
-    // 저장된 프로필의 세션을 우선 유지(재접속 복구)
-    setSessionId(p?.sessionId || s);
+    const s = resolveSession(p);
+    // 쿼리로 세션이 바뀌었으면 저장 프로필도 갱신 → 이후 기록이 올바른 세션에 쌓임
+    if (p && p.sessionId !== s) {
+      const updated = { ...p, sessionId: s };
+      window.localStorage.setItem(PROFILE_KEY, JSON.stringify(updated));
+      setProfile(updated);
+    } else {
+      setProfile(p);
+    }
+    setSessionId(s);
     setReady(true);
   }, []);
 
