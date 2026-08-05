@@ -17,75 +17,67 @@
 | **D1** | Firebase 클라이언트 환경변수 접두사 | Firebase 6종을 **`NEXT_PUBLIC_FIREBASE_*`**로 사용(`.env.example` 반영 완료). `GEMINI_API_KEY`는 서버 전용. 실제 값은 gitignore된 `.env`. | ✅ 확정 |
 | **D2** | lesson-demo 세션 ID | **PRD대로 `booth-1200`/`booth-1500`** 사용. 마감 게이트의 `dotvalley-1200`은 오기로 간주. | ✅ 확정 |
 | **D3** | TEACHER_PIN 검증 방식 | **환경변수 `TEACHER_PIN` 단일 소스**, Firestore 미저장, 두 앱 공유. **PIN 값 = `123456`**(`.env`에 저장, 커밋 금지). | ✅ 확정 |
-| **D4** | 보안 규칙 '본인 문서만 쓰기' | **Firebase Anonymous Auth 도입** → `request.auth.uid`를 pid로. 규칙에서 소유권 검증. ⚠️ **Firebase 콘솔에서 익명 로그인 활성화 필요**(구현 전 선행). | 🔧 콘솔 설정 대기 |
-| **D5** | 배포 단위·모노레포 툴링 | **Vercel 프로젝트 2개**(booth, lesson-demo) + **npm workspaces + Turborepo**. lesson-demo 먼저 배포 → 그 URL을 booth `DEMO_LESSON_URL`에 주입. | ✅ 확정 |
+| **D4** | 보안 규칙 '본인 문서만 쓰기' | **Firebase Anonymous Auth 도입** → `request.auth.uid`를 pid로. 규칙에서 소유권 검증. (콘솔 익명 로그인 활성화 완료) | ✅ 확정 |
+| **D5** | 배포 단위·구조 | **Vercel 프로젝트 1개 = 통합 Next.js 앱**. 부스=`/`, lesson-demo=`/demo` 경로. **모노레포/Turborepo 불필요** → 단일 앱 내부 `lib/` 모듈로 공유 코드 구성. `DEMO_LESSON_URL`=내부 경로 `/demo`(배포 순서 의존 없음). | ✅ 확정 |
 
 ---
 
-## 1. 모노레포 구조 확정
+## 1. 앱 구조 확정 (단일 Next.js 앱 — D5)
 
 ### 1.1 디렉터리 트리
 ```
-school-ai-booth/
-├─ apps/
-│  ├─ booth/                     # 부스 플랫폼 (단일 페이지 슬라이드 앱)
-│  │  ├─ app/
-│  │  │  ├─ layout.tsx           # 테마 토큰 주입, 폰트
-│  │  │  ├─ page.tsx             # S0~S5 섹션(슬라이드) 컨테이너
-│  │  │  └─ teacher/page.tsx     # 강사 대시보드 (PIN)
-│  │  ├─ components/             # 섹션·미션카드·그래프·상단바 등
-│  │  ├─ lib/                    # 앱 국소 로직(세션 컨텍스트, 도장 훅)
-│  │  ├─ next.config.mjs
-│  │  └─ package.json
-│  └─ lesson-demo/               # 시연용 차시 웹앱 「데이터를 풀어라!」
-│     ├─ app/
-│     │  ├─ layout.tsx
-│     │  ├─ page.tsx             # 학생 흐름
-│     │  ├─ teacher/page.tsx     # 교사 대시보드 (PIN)
-│     │  ├─ how/page.tsx         # 제작 과정 정적 페이지 (P1)
-│     │  └─ api/feedback/route.ts# Gemini 피드백 서버 라우트 (P1)
-│     ├─ components/
-│     ├─ lib/
-│     ├─ next.config.mjs
-│     └─ package.json
-├─ packages/
-│  ├─ firebase/                  # @sai/firebase — 초기화·컬렉션 ref·익명 인증·규칙
-│  │  ├─ src/{app.ts, collections.ts, auth.ts, index.ts}
-│  │  └─ firestore.rules         # 보안 규칙 (배포용)
-│  ├─ theme/                     # @sai/theme — 디자인 토큰(색·타이포·모션)
-│  │  └─ src/{tokens.css, tokens.ts, index.ts}
-│  └─ data/                      # @sai/data — JSON 로더·모델·그래프/미션 빌더
-│     └─ src/{content.ts, standards.ts, missions.ts, graph.ts, index.ts}
-├─ data/                         # 원본 JSON (packages/data가 빌드 타임 임포트)
+school-ai-booth/                 # 단일 Next.js 앱 (App Router, TS, Vercel 프로젝트 1개)
+├─ app/
+│  ├─ layout.tsx                 # 루트 레이아웃(테마 토큰·폰트)
+│  ├─ globals.css                # 디자인 토큰 CSS 변수(테마 단일 지점)
+│  ├─ page.tsx                   # [부스] S0~S5 섹션(슬라이드) 컨테이너
+│  ├─ teacher/page.tsx           # [부스] 강사 대시보드 (PIN)
+│  └─ demo/                      # [시연 차시앱] 「데이터를 풀어라!」
+│     ├─ page.tsx                #   학생 흐름
+│     ├─ teacher/page.tsx        #   교사 대시보드 (PIN)
+│     └─ how/page.tsx            #   제작 과정 정적 페이지 (P1)
+├─ app/api/feedback/route.ts     # Gemini 피드백 서버 라우트 (P1)
+├─ components/
+│  ├─ booth/                     # 부스 전용(섹션·미션카드·그래프·상단바 등)
+│  ├─ demo/                      # 차시앱 전용(단계카드·퀴즈·현황판 등)
+│  └─ common/                    # 공용(QR·성취기준 칩·다운로드 버튼 등)
+├─ lib/
+│  ├─ firebase/{app,collections,auth}.ts   # 초기화·컬렉션 ref·익명 인증
+│  ├─ theme/tokens.ts            # 색·타이포·모션 TS 상수(globals.css 미러)
+│  ├─ data/{content,standards,missions,graph}.ts  # JSON 로더·모델·빌더
+│  ├─ booth/{session,progress,presenter}.ts
+│  ├─ demo/{session,steps,quiz}.ts
+│  └─ constants.ts               # SURVEY_URL·DEMO_LESSON_URL(=/demo) 단일 지점
+├─ data/                         # 원본 JSON (lib/data가 빌드 타임 임포트)
 │  ├─ sai-content-links.json
 │  └─ sai-standards-map.json
 ├─ docs/                         # PRD·PLAN·REVIEW·매뉴얼 PDF
-├─ package.json                  # workspaces 루트
-├─ turbo.json
-├─ tsconfig.base.json
+├─ firestore.rules               # 보안 규칙(배포용)
+├─ next.config.mjs
+├─ tsconfig.json                 # path alias @/* → 루트
+├─ package.json
 ├─ .env.example
 └─ .gitignore
 ```
+> 부스와 차시앱을 하나의 앱으로 통합하되 **폴더 네임스페이스(`components/booth` vs `components/demo`, `lib/booth` vs `lib/demo`)로 코드를 분리**해 응집도를 유지한다. 공유 코드(`lib/firebase`·`lib/theme`·`lib/data`·`components/common`)는 양쪽이 함께 사용.
 
-### 1.2 공유 패키지 책임
-- **`@sai/firebase`**: `initFirebaseApp()`, `db`/`storage` export, 타입드 컬렉션 ref 헬퍼(`participantsRef(sessionId)` 등), `ensureAnonymousAuth()`, `firestore.rules`. **테마·데이터에 의존하지 않음.**
-- **`@sai/theme`**: CSS 변수 정의(`tokens.css` — `:root` + 콘텐츠 테마 클래스 `.theme-dotvalley`/`.theme-sos`)와 TS 상수 미러(`tokens.ts`). **인라인 색상 절대 금지, 모든 색·타이포·모션은 여기서만.** 추후 `design.md` 교체 대비 단일 지점.
-- **`@sai/data`**: 두 JSON을 빌드 타임 임포트해 타입 안전 모델로 노출. 파생 데이터 빌더 제공(미션 정의 상수, 그래프 노드/간선 빌더, 성취기준 조회).
+### 1.2 공유 모듈 책임 (앱 내부 `lib/`)
+- **`lib/firebase`**: `initFirebaseApp()`, `db`/`storage`, 타입드 컬렉션 ref 헬퍼(`participantsRef(sessionId)` 등), `ensureAnonymousAuth()`. 규칙은 루트 `firestore.rules`.
+- **`lib/theme` + `app/globals.css`**: CSS 변수 정의(`:root` + 콘텐츠 테마 클래스 `.theme-dotvalley`/`.theme-sos`)와 TS 상수 미러. **인라인 색상 절대 금지, 모든 색·타이포·모션은 여기서만.** 추후 `design.md` 교체 대비 단일 지점.
+- **`lib/data`**: 두 JSON을 빌드 타임 임포트해 타입 안전 모델로 노출 + 파생 빌더(미션 정의 상수, 그래프 노드/간선 빌더, 성취기준 조회).
+- **`lib/constants.ts`**: `SURVEY_URL`(env), `DEMO_LESSON_URL`(내부 경로 `/demo`) 단일 교체 지점.
 
-### 1.3 앱별 라우트 맵
-**booth** (해시로 회차 유지, 섹션=슬라이드)
+### 1.3 라우트 맵 (단일 도메인)
 | 경로 | 내용 |
 |---|---|
-| `/#dotvalley` `/#sos` | S0 입장·회차선택 → S1 오프닝 → S2 미션보드 → S3 3D 그래프 → S4 사례 → S5 자료실. 강사 우회 `?presenter=1` |
-| `/teacher` | PIN 진입 강사 대시보드(회차 탭 × 참가자 × 미션3 그리드) |
-
-**lesson-demo**
-| 경로 | 내용 |
-|---|---|
-| `/` | 학생 입장 → 차시 홈 → 단계 카드5 → 진행바 → 동료 현황판 |
-| `/teacher` | PIN 진입 교사 대시보드(그리드·정답률·응답·산출물·리셋·세션전환) |
-| `/how` | 제작 과정 3단계 정적 페이지 (P1) |
+| `/#dotvalley` `/#sos` | [부스] S0 입장·회차선택 → S1 오프닝 → S2 미션보드 → S3 3D 그래프 → S4 사례 → S5 자료실. 강사 우회 `?presenter=1` |
+| `/teacher` | [부스] PIN 진입 강사 대시보드(회차 탭 × 참가자 × 미션3 그리드) |
+| `/demo` | [차시앱] 학생 입장 → 차시 홈 → 단계 카드5 → 진행바 → 동료 현황판 |
+| `/demo/teacher` | [차시앱] PIN 진입 교사 대시보드(그리드·정답률·응답·산출물·리셋·세션전환) |
+| `/demo/how` | [차시앱] 제작 과정 3단계 정적 페이지 (P1) |
 | `/api/feedback` | Gemini 피드백 서버 라우트 (P1) |
+- **`DEMO_LESSON_URL` = `/demo`**: 부스 S4 '시연용 차시 웹앱 열기' 버튼이 같은 도메인 내부 경로로 이동(외부 URL·배포 순서 의존 없음).
+- **`/teacher` 경로 충돌 해소**: 부스=`/teacher`, 차시앱=`/demo/teacher`로 분리(각자 다른 Firestore 루트 구독).
 
 ---
 
@@ -116,7 +108,7 @@ sessions/{sessionId}/progress/{studentId}  {
 - **config 문서 제거**(D3): PIN·activeSession을 Firestore에 두지 않음. PIN은 `TEACHER_PIN` 환경변수, `activeSession`은 앱 상수(세션 전환은 D2 정책상 배포 상수 또는 대시보드 로컬 토글 — 아래 T13 참조).
 - `pid`/`studentId` = **익명 인증 uid**(D4). 문서 ID와 `uid` 필드를 일치시켜 규칙에서 소유권 검증.
 
-### 2.2 보안 규칙 초안 (`packages/firebase/firestore.rules`)
+### 2.2 보안 규칙 초안 (`firestore.rules`)
 ```
 rules_version='2';
 service cloud.firestore {
@@ -170,7 +162,7 @@ service cloud.firestore {
 
 라이브러리: **`3d-force-graph`**(three.js 기반, npm 번들). 폴백: 2D 목록(아코디언).
 
-### 3.1 노드/간선 데이터 모델 & 함수 시그니처 (`packages/data/graph.ts`)
+### 3.1 노드/간선 데이터 모델 & 함수 시그니처 (`lib/data/graph.ts`)
 ```ts
 type NodeKind = 'unit' | 'standard' | 'content' | 'lesson' | 'activity';
 interface GNode {
@@ -202,7 +194,7 @@ searchFocus(query: string): string | null    // 성취기준 코드/활동 제�
 - **초기 30노드**. 성취기준 클릭 → 차시 확장. 차시 클릭 → 활동 확장.
 - **성능 예산: 확장 노드 200개 이하 상시 유지.** 새 차시 활동을 펼칠 때 임계 초과 예상 시 **가장 오래 펼친 차시 자동 접기(LRU)** + 사용자 수동 접기 지원. (전체 완전 전개 ≈ 282노드이므로 절대 한꺼번에 그리지 않음.)
 - 초기 로딩 2초 내(활동 노드 지연 생성), 60fps 목표.
-- 노드 색: 대단원 5색 고정(`@sai/theme`), 콘텐츠·차시·활동은 소속 대단원 색 명도 변화. 도트밸리 매핑 간선 `instructor:true` → 점선/배지 + 범례.
+- 노드 색: 대단원 5색 고정(`lib/theme`), 콘텐츠·차시·활동은 소속 대단원 색 명도 변화. 도트밸리 매핑 간선 `instructor:true` → 점선/배지 + 범례.
 - **재구성 바구니**: 활동 담기/빼기 → 하단 트레이 → 내보내기 시 "제목 + 딥링크 + 연계 성취기준" 마크다운 클립보드 복사(localStorage 유지).
 
 ---
@@ -212,92 +204,92 @@ searchFocus(query: string): string | null    // 성취기준 코드/활동 제�
 각 태스크는 Codex 1회 세션 크기. 완료 판정의 "수용 기준 n(부스)/n(데모)"는 각 PRD의 8장/7장 번호.
 
 ### 기반 (P0 선행)
-**T02 — 모노레포 스캐폴딩**
-- (a) npm workspaces + Turborepo, 두 Next.js(App Router, TS) 앱 뼈대, 공유 `tsconfig.base.json`, 루트 스크립트(dev/build/lint)
-- (b) `package.json`, `turbo.json`, `tsconfig.base.json`, `apps/booth/*`, `apps/lesson-demo/*` 최소 뼈대, `packages/{firebase,theme,data}/package.json`
+**T02 — 단일 앱 스캐폴딩**
+- (a) Next.js(App Router, TS) 단일 앱 초기화, path alias `@/*`, `tsconfig.json`, 루트 스크립트(dev/build/lint), `next.config.mjs`(env 로드)
+- (b) `package.json`, `tsconfig.json`, `next.config.mjs`, `app/{layout,page,globals.css}` 최소 뼈대
 - (c) 없음
-- (d) `npm run dev`로 두 앱이 각각 기동, 빈 페이지 렌더
+- (d) `npm run dev`로 앱 기동, `/`·`/demo` 빈 페이지 렌더
 
-**T03 — @sai/theme 디자인 토큰**
-- (a) 색·타이포·모션 토큰을 CSS 변수+TS 상수로. 도트밸리(탐험 그린), 세계수(숲 앰버), 대단원 5색, 다크 그래프 배경, "교사의 눈" 별색
-- (b) `packages/theme/src/{tokens.css,tokens.ts,index.ts}`
+**T03 — lib/theme 디자인 토큰**
+- (a) 색·타이포·모션 토큰을 `globals.css` CSS 변수 + `lib/theme/tokens.ts` 상수로. 도트밸리(탐험 그린), 세계수(숲 앰버), 대단원 5색, 다크 그래프 배경, "교사의 눈" 별색. 테마 클래스 `.theme-dotvalley`/`.theme-sos`
+- (b) `app/globals.css`, `lib/theme/tokens.ts`
 - (c) T02
-- (d) 두 앱에서 토큰 임포트로 배경/텍스트 색 적용, 인라인 색상 0건
+- (d) 토큰 임포트로 배경/텍스트 색 적용, 인라인 색상 0건
 
-**T04 — @sai/data 로더·모델·빌더**
-- (a) 두 JSON 빌드 타임 임포트, 타입 모델, 성취기준 조회, **미션 정의 상수**(부스 6미션·활동 스텝 매핑), lesson-demo 4단계 상수, 그래프 빌더 시그니처(3.1) 구현
-- (b) `packages/data/src/{content.ts,standards.ts,missions.ts,graph.ts,index.ts}`
+**T04 — lib/data 로더·모델·빌더**
+- (a) 두 JSON 빌드 타임 임포트, 타입 모델, 성취기준 조회, **미션 정의 상수**(부스 6미션·활동 스텝 매핑), 차시앱 4단계 상수, 그래프 빌더 시그니처(3.1) 구현
+- (b) `lib/data/{content,standards,missions,graph}.ts`
 - (c) T02
 - (d) 232활동·25성취기준 로드, `buildInitialGraph()`가 30노드 반환, 미션별 활동 딥링크 조회 동작
 
-**T05 — @sai/firebase 초기화·인증·규칙**
+**T05 — lib/firebase 초기화·인증·규칙**
 - (a) Firebase 초기화(NEXT_PUBLIC 설정), `db`/`storage`, 컬렉션 ref 헬퍼, `ensureAnonymousAuth()`, `firestore.rules`(2.2)
-- (b) `packages/firebase/src/{app.ts,collections.ts,auth.ts,index.ts}`, `packages/firebase/firestore.rules`
-- (c) T02, D1·D4 확정
+- (b) `lib/firebase/{app,collections,auth}.ts`, `firestore.rules`
+- (c) T02 (D1·D4 확정 완료)
 - (d) 익명 로그인 후 임의 progress 문서 write 성공, 타 uid 문서 write 규칙 거부
 
-### 부스 플랫폼 P0
-**T06 — booth S0 입장·회차 선택**
+### 부스(`/`) P0
+**T06 — 부스 S0 입장·회차 선택**
 - (a) 입장 게이트(소속·성함, 최소수집 안내), 회차 카드+접속 QR, 해시 라우팅 유지, pid/localStorage 복구, participants 기록, 강사 우회
-- (b) `apps/booth/app/page.tsx`(S0 파트), `components/EntryGate.tsx`, `components/RoundSelect.tsx`, `lib/session.ts`
+- (b) `app/page.tsx`(S0 파트), `components/booth/{EntryGate,RoundSelect}.tsx`, `lib/booth/session.ts`
 - (c) T03,T04,T05
 - (d) 부스 수용 1(새로고침 회차 유지), 9 일부(입장→participants 기록·복구)
 
-**T07 — booth 상단바·발표모드·타이머**
+**T07 — 부스 상단바·발표모드·타이머**
 - (a) 상단 고정바(회차명·섹션 내비), 발표 모드 키보드(←/→·스페이스·P빔), 세션 30분+미션 18분 타이머(3분 전 경고)
-- (b) `components/TopBar.tsx`, `components/Timer.tsx`, `lib/presenter.ts`
+- (b) `components/booth/{TopBar,Timer}.tsx`, `lib/booth/presenter.ts`
 - (c) T06
 - (d) 부스 수용 6(키보드 전환·타이머), F2/F3
 
-**T08 — booth S2 미션 보드 + 도장**
+**T08 — 부스 S2 미션 보드 + 도장**
 - (a) 회차별 추천 미션 3개 카드(미션명·시간·활동 스텝 딥링크·성취기준 칩+전문 툴팁·교사의 눈), 완료 도장 → progress Firestore 즉시 반영+localStorage, 3개 완료 배지, 교사용 매뉴얼 버튼 상시 노출
-- (b) `components/MissionBoard.tsx`, `components/MissionCard.tsx`, `components/StandardChip.tsx`, `lib/progress.ts`
+- (b) `components/booth/{MissionBoard,MissionCard}.tsx`, `components/common/StandardChip.tsx`, `lib/booth/progress.ts`
 - (c) T06,T07
 - (d) 부스 수용 2(딥링크 새 탭·232 렌더), 5(도장·배지), 9(도장→대시보드 1초 반영·복구)
 
-**T09 — booth S1·S4·S5 (오프닝·사례·자료실)**
-- (a) S1 오프닝(세계관·경로 차이), S4 사례 3장(전환기 완주 / 재구성 시나리오+`DEMO_LESSON_URL` 버튼 / 공개수업 5차시), S5 마무리+**자료실**(매뉴얼 PDF 4종 직다운로드·`saiCatalog` 초중고 링크·설문 QR `SURVEY_URL`)
-- (b) `components/{Opening,CaseStudy,Closing,ResourceHub,SurveyQR}.tsx`, `lib/constants.ts`(SURVEY_URL·DEMO_LESSON_URL 참조)
+**T09 — 부스 S1·S4·S5 (오프닝·사례·자료실)**
+- (a) S1 오프닝(세계관·경로 차이), S4 사례 3장(전환기 완주 / 재구성 시나리오+`DEMO_LESSON_URL`=`/demo` 버튼 / 공개수업 5차시), S5 마무리+**자료실**(매뉴얼 PDF 4종 직다운로드·`saiCatalog` 초중고 링크·설문 QR `SURVEY_URL`)
+- (b) `components/booth/{Opening,CaseStudy,Closing,ResourceHub}.tsx`, `components/common/SurveyQR.tsx`, `lib/constants.ts`
 - (c) T06
 - (d) 부스 수용 7(URL 상수 1곳 교체), 8(PDF 4종 즉시 다운로드·카탈로그 링크)
 
-**T10 — booth /teacher 대시보드**
+**T10 — 부스 /teacher 대시보드**
 - (a) PIN 진입, 회차 탭(12:00/15:00) × 참가자 × 미션3 완료 그리드 onSnapshot, 참가자 수, 이름 마스킹 토글, 회차 리셋(=파기)
-- (b) `apps/booth/app/teacher/page.tsx`, `components/DashboardGrid.tsx`, 리셋 경로(2.2 주1 정책)
-- (c) T05,T08, D3 확정
+- (b) `app/teacher/page.tsx`, `components/booth/DashboardGrid.tsx`, 리셋 경로(2.2 주1 정책)
+- (c) T05,T08 (D3 확정 완료)
 - (d) 부스 수용 9(그리드 1초 반영·리셋 일괄 삭제), F11 전부
 
-### 시연 차시 웹앱 P0
-**T11 — lesson-demo 입장·차시 홈·단계 카드**
+### 시연 차시앱(`/demo`) P0
+**T11 — 차시앱 입장·차시 홈·단계 카드**
 - (a) 학번5+이름 입장·localStorage 복구, 차시 홈(성취기준 9정02-03·04 칩+전문 접기·목표), 단계 카드5(도입/전개1~3/형성평가), 활동 딥링크, 완료 체크→progress, 전개3 산출물 텍스트 제출·수정
-- (b) `apps/lesson-demo/app/page.tsx`, `components/{Entry,LessonHome,StepCard,ArtifactInput}.tsx`, `lib/{session,steps}.ts`
-- (c) T03,T04,T05, D2 확정
+- (b) `app/demo/page.tsx`, `components/demo/{Entry,LessonHome,StepCard,ArtifactInput}.tsx`, `lib/demo/{session,steps}.ts`
+- (c) T03,T04,T05 (D2 확정 완료)
 - (d) 데모 수용 1(딥링크·완료→그리드 반영), 5(재접속 복구), F6
 
-**T12 — lesson-demo 형성평가·진행바·동료 현황판**
+**T12 — 차시앱 형성평가·진행바·동료 현황판**
 - (a) 형성평가 3문항(객관식 자동 채점·단답 저장), 진행바(5단계 완료율·축하 화면), 동료 현황판(이름·단계만)
-- (b) `components/{QuizForm,ProgressBar,PeerBoard}.tsx`, `lib/quiz.ts`
+- (b) `components/demo/{QuizForm,ProgressBar,PeerBoard}.tsx`, `lib/demo/quiz.ts`
 - (c) T11
 - (d) 데모 수용 2 일부(객관식 자동채점·정답률 갱신은 T13와 함께), F3/F4
 
-**T13 — lesson-demo /teacher 대시보드**
+**T13 — 차시앱 /demo/teacher 대시보드**
 - (a) PIN 진입, 참여자×5단계 그리드 onSnapshot, 객관식 정답률 도넛, 단답·산출물 리스트, 이름 마스킹, 세션 리셋, `activeSession` 전환(booth-1200↔booth-1500)
-- (b) `apps/lesson-demo/app/teacher/page.tsx`, `components/{DemoGrid,QuizStats,AnswerList}.tsx`
-- (c) T11,T12, D2·D3 확정
+- (b) `app/demo/teacher/page.tsx`, `components/demo/{DemoGrid,QuizStats,AnswerList}.tsx`
+- (c) T11,T12 (D2·D3 확정 완료)
 - (d) 데모 수용 2·3·4(정답률·산출물 리스트·마스킹·리셋·세션 전환)
 
 ### P1 (있으면 좋음)
-**T14 — booth S3 3D 지식그래프** (3장 전략 구현: 초기30·점진확장·사이드패널·재구성 바구니 내보내기·검색·2D 폴백) / (b) `components/{KnowledgeGraph,GraphSidePanel,BasketTray,GraphSearch,ListFallback}.tsx` / (c) T04,T08 / (d) 부스 수용 3(성취기준 클릭→차시→활동→딥링크 4클릭 이내·재구성안 구분), 4(바구니 3개→마크다운 복사)
-**T15 — lesson-demo Gemini 피드백** (`/api/feedback` Vercel 라우트, 산출물·단답 → 성취기준 관점 피드백+도달도 제안, 실패 시 조용한 폴백, 프롬프트/스키마 상수 분리) / (c) T13, GEMINI_API_KEY / (d) 데모 수용 2(5초 내 피드백·실패 시 제출 정상)
-**T16 — lesson-demo /how 정적 페이지** (제작 과정 3단계) / (c) T02 / (d) 데모 F7
-**T17 — 배포·마감 게이트** (Vercel 프로젝트 2개, 환경변수 주입, DEMO_LESSON_URL 연결, README, 마감 게이트 리허설을 REVIEW.md에 기록) / (c) 전 P0 / (d) `WORKFLOW` 마감 게이트 항목 전부
+**T14 — 부스 S3 3D 지식그래프** (3장 전략 구현: 초기30·점진확장·사이드패널·재구성 바구니 내보내기·검색·2D 폴백) / (b) `components/booth/{KnowledgeGraph,GraphSidePanel,BasketTray,GraphSearch,ListFallback}.tsx` / (c) T04,T08 / (d) 부스 수용 3(성취기준 클릭→차시→활동→딥링크 4클릭 이내·재구성안 구분), 4(바구니 3개→마크다운 복사)
+**T15 — 차시앱 Gemini 피드백** (`app/api/feedback/route.ts` 서버 라우트, 산출물·단답 → 성취기준 관점 피드백+도달도 제안, 실패 시 조용한 폴백, 프롬프트/스키마 상수 분리) / (c) T13, GEMINI_API_KEY / (d) 데모 수용 2(5초 내 피드백·실패 시 제출 정상)
+**T16 — 차시앱 /demo/how 정적 페이지** (제작 과정 3단계) / (b) `app/demo/how/page.tsx` / (c) T02 / (d) 데모 F7
+**T17 — 배포·마감 게이트** (Vercel 프로젝트 **1개**, 환경변수 주입, `/demo` 경로 확인, README, 마감 게이트 리허설을 REVIEW.md에 기록) / (c) 전 P0 / (d) `WORKFLOW` 마감 게이트 항목 전부
 
 ### 의존 그래프 요약
 ```
 T02 → T03,T04,T05
-T05,T04,T03 → T06 → T07 → T08 → T09
+T05,T04,T03 → T06 → T07 → T08 → T09    (부스 /)
 T08,T05 → T10
-T03,T04,T05 → T11 → T12 → T13
+T03,T04,T05 → T11 → T12 → T13          (차시앱 /demo)
 (P1) T14←T08 ; T15←T13 ; T16←T02 ; T17←모든 P0
 ```
 
@@ -319,8 +311,8 @@ T03,T04,T05 → T11 → T12 → T13
 **P0 (8/6 필수):** T02 → T03 → T04 → T05 → (booth) T06 → T07 → T08 → T09 → T10 → (lesson-demo) T11 → T12 → T13.
 - 부스: 입장·미션보드·강사 대시보드·자료실·설문 QR 확보. lesson-demo: 학생 흐름·대시보드 확보. **그래프 없이도 행사 진행 가능한 상태.**
 
-**P1 (여유 시):** T14(3D 그래프 고급 인터랙션) → T15(Gemini 피드백) → T16(/how) → T17(배포·마감 게이트 정식화).
-- 단, **T17의 배포 자체는 P0 검증에도 필요** → P0 완료 시점에 booth+lesson-demo를 각각 프리뷰 배포해 딥링크·QR·대시보드 실증(마감 게이트 축약본)을 먼저 돌리고, P1에서 최종 게이트로 승격.
+**P1 (여유 시):** T14(3D 그래프 고급 인터랙션) → T15(Gemini 피드백) → T16(/demo/how) → T17(배포·마감 게이트 정식화).
+- 단, **T17의 배포 자체는 P0 검증에도 필요** → P0 완료 시점에 단일 앱을 프리뷰 배포해 `/`·`/demo`의 딥링크·QR·대시보드 실증(마감 게이트 축약본)을 먼저 돌리고, P1에서 최종 게이트로 승격.
 
 ---
 
