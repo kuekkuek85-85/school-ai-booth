@@ -1,6 +1,7 @@
 'use client';
 /** 차시앱 교사 대시보드 — PIN, 그리드·정답률·응답 리스트, 마스킹, 세션 리셋, activeSession 전환. */
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import PinGate from '@/components/common/PinGate';
 import DemoGrid from '@/components/demo/DemoGrid';
 import QuizStats from '@/components/demo/QuizStats';
@@ -78,7 +79,10 @@ function Dashboard() {
           </select>
         </label>
 
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 'var(--space-2)' }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
+          <Link href="/demo/how" style={{ ...toolBtn, textDecoration: 'none' }}>
+            이렇게 만들었어요
+          </Link>
           <button onClick={() => setMasked((v) => !v)} style={toolBtn} aria-pressed={masked}>
             이름 마스킹 {masked ? 'ON' : 'OFF'}
           </button>
