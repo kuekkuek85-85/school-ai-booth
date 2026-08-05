@@ -2,10 +2,12 @@
 /** 내 진행 바 — 5단계 완료율. 전체 완료 시 축하 표시. */
 import { useDemoProgress } from '@/lib/demo/progress';
 
-export default function ProgressBar() {
-  const { completed, total } = useDemoProgress();
-  const pct = Math.round((completed / total) * 100);
-  const allDone = completed >= total;
+export default function ProgressBar({ total }: { total: number }) {
+  const { completed } = useDemoProgress();
+  const safeTotal = Math.max(1, total);
+  const done = Math.min(completed, safeTotal);
+  const pct = Math.round((done / safeTotal) * 100);
+  const allDone = done >= safeTotal;
 
   return (
     <div
@@ -24,7 +26,7 @@ export default function ProgressBar() {
           {allDone ? '🎉 모든 단계 완료! 수고했어요' : '내 진행'}
         </strong>
         <span style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>
-          {completed} / {total} 단계
+          {done} / {safeTotal} 단계
         </span>
       </div>
       <div

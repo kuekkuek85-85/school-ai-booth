@@ -4,10 +4,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { demoProgressDoc, type DemoProgress, type DemoQuizResult } from '@/lib/firebase/collections';
 import { useDemoSession } from '@/lib/demo/session';
-import type { DemoStepId } from '@/lib/data/missions';
 
 const EMPTY: DemoProgress = {
-  steps: { intro: false, act1: false, act2: false, act3: false, quiz: false },
+  steps: {},
   artifact: '',
   quiz: null,
   updatedAt: null,
@@ -48,15 +47,14 @@ export function useDemoProgress() {
 
   // persist가 steps를 prev와 병합하므로 변경 키만 넘긴다
   const toggleStep = useCallback(
-    (id: DemoStepId) => persist({ steps: { [id]: !data.steps[id] } as DemoProgress['steps'] }),
+    (key: string) => persist({ steps: { [key]: !data.steps[key] } }),
     [persist, data.steps],
   );
 
   const setArtifact = useCallback((text: string) => persist({ artifact: text }), [persist]);
 
   const submitQuiz = useCallback(
-    (result: DemoQuizResult) =>
-      persist({ quiz: result, steps: { quiz: true } as DemoProgress['steps'] }),
+    (result: DemoQuizResult) => persist({ quiz: result, steps: { quiz: true } }),
     [persist],
   );
 
@@ -82,5 +80,5 @@ export function useDemoProgress() {
 
   const completed = Object.values(data.steps).filter(Boolean).length;
 
-  return { data, toggleStep, setArtifact, submitQuiz, requestFeedback, completed, total: 5 };
+  return { data, toggleStep, setArtifact, submitQuiz, requestFeedback, completed };
 }

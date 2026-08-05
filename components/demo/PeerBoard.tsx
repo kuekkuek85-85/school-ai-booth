@@ -41,7 +41,7 @@ export default function PeerBoard() {
               <strong>{r.name}</strong>
               <span style={{ color: 'var(--color-text-muted)' }}>{r.currentLabel}</span>
               <span style={{ color: 'var(--color-primary)', fontWeight: 'var(--fw-bold)' }}>
-                {r.completed}/5
+                {r.completed}/{r.total}
               </span>
             </li>
           ))}

@@ -93,13 +93,8 @@ export interface DemoFeedback {
 }
 
 export interface DemoProgress {
-  steps: {
-    intro: boolean;
-    act1: boolean;
-    act2: boolean;
-    act3: boolean;
-    quiz: boolean;
-  };
+  /** 가변 단계 — 활동지 스펙의 단계 key + 'quiz'. (예: intro/act1.. 또는 act0/act1../quiz) */
+  steps: Record<string, boolean>;
   artifact: string;
   quiz: DemoQuizResult | null;
   feedback?: DemoFeedback;

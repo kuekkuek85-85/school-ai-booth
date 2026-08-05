@@ -60,7 +60,7 @@ export default function LessonHome() {
           </p>
         </header>
 
-        <ProgressBar />
+        <ProgressBar total={5} />
 
         {/* 단계 카드 (활동 4개) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>

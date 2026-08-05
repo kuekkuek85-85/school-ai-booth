@@ -1,7 +1,6 @@
 'use client';
-/** 참여자 × 5단계 완료 그리드 (onSnapshot 실시간). */
+/** 참여자 진행 그리드 (가변 단계) — 진행 바 + 완료 n/N + 현재 단계 + 형성평가 제출. */
 import type { DemoRow } from '@/lib/demo/dashboard';
-import { DEMO_STEPS } from '@/lib/data/missions';
 import { maskName } from '@/lib/booth/dashboard';
 
 export default function DemoGrid({ rows, masked }: { rows: DemoRow[]; masked: boolean }) {
@@ -14,30 +13,34 @@ export default function DemoGrid({ rows, masked }: { rows: DemoRow[]; masked: bo
         <thead>
           <tr>
             <th style={{ ...cell, textAlign: 'left', color: 'var(--color-text-muted)' }}>이름</th>
-            {DEMO_STEPS.map((s) => (
-              <th key={s.id} style={{ ...cell, color: 'var(--color-text-muted)', fontSize: 'var(--fs-xs)' }}>
-                {s.label}
-              </th>
-            ))}
-            <th style={{ ...cell, color: 'var(--color-text-muted)' }}>완료</th>
+            <th style={{ ...cell, textAlign: 'left', color: 'var(--color-text-muted)', width: '40%' }}>진행</th>
+            <th style={{ ...cell, color: 'var(--color-text-muted)' }}>현재 단계</th>
+            <th style={{ ...cell, color: 'var(--color-text-muted)' }}>형성평가</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((r) => (
-            <tr key={r.uid}>
-              <td style={{ ...cell, textAlign: 'left', fontWeight: 'var(--fw-bold)', whiteSpace: 'nowrap' }}>
-                {masked ? maskName(r.name) : r.name}
-              </td>
-              {DEMO_STEPS.map((s) => (
-                <td key={s.id} style={cell}>
-                  {r.steps[s.id] ? '✅' : '·'}
+          {rows.map((r) => {
+            const pct = r.total ? Math.round((r.completed / r.total) * 100) : 0;
+            return (
+              <tr key={r.uid}>
+                <td style={{ ...cell, textAlign: 'left', fontWeight: 'var(--fw-bold)', whiteSpace: 'nowrap' }}>
+                  {masked ? maskName(r.name) : r.name}
                 </td>
-              ))}
-              <td style={{ ...cell, fontWeight: 'var(--fw-bold)', color: r.completed === 5 ? 'var(--color-primary)' : 'var(--color-text)' }}>
-                {r.completed}/5
-              </td>
-            </tr>
-          ))}
+                <td style={cell}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                    <div style={{ flex: 1, height: 8, borderRadius: 'var(--radius-full)', background: 'var(--color-surface-2)', overflow: 'hidden' }}>
+                      <div style={{ width: `${pct}%`, height: '100%', background: 'var(--color-primary)' }} />
+                    </div>
+                    <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', whiteSpace: 'nowrap' }}>
+                      {r.completed}/{r.total}
+                    </span>
+                  </div>
+                </td>
+                <td style={{ ...cell, fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>{r.currentLabel}</td>
+                <td style={cell}>{r.quiz ? '✅' : '·'}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
