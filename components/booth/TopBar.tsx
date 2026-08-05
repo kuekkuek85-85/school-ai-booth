@@ -1,6 +1,5 @@
 'use client';
-/** 상단 고정 바 — 회차명 · 섹션 내비 · 타이머 · 빔 모드 토글. */
-import Timer from '@/components/booth/Timer';
+/** 상단 고정 바 — 회차명 · 섹션 내비. */
 import { BOOTH_ROUNDS } from '@/lib/data/missions';
 import type { ContentId } from '@/lib/theme/tokens';
 
@@ -14,8 +13,6 @@ interface Props {
   sections: SectionMeta[];
   index: number;
   goTo: (i: number) => void;
-  beam: boolean;
-  toggleBeam: () => void;
   onExitRound: () => void;
 }
 
@@ -24,8 +21,6 @@ export default function TopBar({
   sections,
   index,
   goTo,
-  beam,
-  toggleBeam,
   onExitRound,
 }: Props) {
   const r = BOOTH_ROUNDS[round];
@@ -103,26 +98,6 @@ export default function TopBar({
           );
         })}
       </nav>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
-        <Timer label="세션" durationSec={30 * 60} autoStart />
-        <Timer label="미션" durationSec={18 * 60} />
-        <button
-          onClick={toggleBeam}
-          title="빔 모드(폰트 확대) — 단축키 P"
-          style={{
-            padding: 'var(--space-1) var(--space-3)',
-            borderRadius: 'var(--radius-full)',
-            border: '1px solid var(--color-border)',
-            fontSize: 'var(--fs-sm)',
-            fontWeight: 'var(--fw-medium)',
-            color: beam ? 'var(--color-primary-contrast)' : 'var(--color-text-muted)',
-            background: beam ? 'var(--color-primary)' : 'transparent',
-          }}
-        >
-          빔 {beam ? 'ON' : 'OFF'}
-        </button>
-      </div>
     </header>
   );
 }

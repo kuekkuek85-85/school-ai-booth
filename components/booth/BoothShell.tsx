@@ -33,13 +33,13 @@ const SECTIONS: SectionMeta[] = [
 
 export default function BoothShell() {
   const { round, clearRound } = useBoothSession();
-  const { index, goTo, beam, toggleBeam } = usePresenterNav(SECTIONS.length);
+  const { index, goTo } = usePresenterNav(SECTIONS.length);
   const graphIndex = SECTIONS.findIndex((s) => s.id === 'graph');
   if (!round) return null;
 
   return (
     <div
-      className={`${THEME_CLASS[round]} ${beam ? 'beam-mode' : ''}`}
+      className={THEME_CLASS[round]}
       style={{ minHeight: '100vh', background: 'var(--color-bg)' }}
     >
       <TopBar
@@ -47,8 +47,6 @@ export default function BoothShell() {
         sections={SECTIONS}
         index={index}
         goTo={goTo}
-        beam={beam}
-        toggleBeam={toggleBeam}
         onExitRound={clearRound}
       />
       <div style={{ maxWidth: 1120, margin: '0 auto', padding: 'var(--space-6) var(--space-5)' }}>
@@ -61,7 +59,7 @@ export default function BoothShell() {
 function renderSection(id: string, goGraph: () => void) {
   switch (id) {
     case 'opening':
-      return <Opening onExploreGraph={goGraph} />;
+      return <Opening />;
     case 'missions':
       return <MissionBoard onExplore={goGraph} />;
     case 'case':
