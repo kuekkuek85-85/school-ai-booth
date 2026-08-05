@@ -1,0 +1,16 @@
+# 환경 변수 (실제 키·PIN 절대 커밋 금지)
+.env
+.env.local
+.env.*.local
+
+# 의존성
+node_modules/
+
+# Next.js 빌드 산출물
+.next/
+out/
+
+# 로그·잡파일
+*.log
+.DS_Store
+Thumbs.db

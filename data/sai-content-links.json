@@ -1,0 +1,1601 @@
+{
+  "contents": [
+    {
+      "id": "dotvalley",
+      "title": "도트밸리 속 버그를 잡아라",
+      "body": "조이와 타미의 좌충우돌 마을 탐험기\r\nNPC들의 퀘스트를 하나씩 수행해 나가며 마을에 감춰진 버그의 비밀을 풀어내보자!",
+      "mapUrl": "https://sai.software.kr/_static/contents/2023middle/map.html",
+      "originUrl": "https://sai.software.kr/middle/ai-education/ead648ab-c950-478e-b8b0-c9b0a62dfb32",
+      "lessons": [
+        {
+          "no": 1,
+          "title": "인공지능, 세상을 변화시키다",
+          "activities": [
+            {
+              "no": 1,
+              "title": "당신이 생각하는 인공지능, 그리고 인공지능이 변화시킨 것은?",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=01/01",
+              "type": "video"
+            },
+            {
+              "no": 2,
+              "title": "[2055 타미의 하루] 음성인식과 가상현실 체험하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/01/01_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "인공지능 O, X 퀴즈",
+              "link": "https://sai.software.kr/_static/contents/2023middle/01/01_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "인공지능의 분야",
+              "link": "https://sai.software.kr/_static/contents/2023middle/01/01_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "소프트웨어와 인공지능의 차이점은?",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=01/05",
+              "type": "video"
+            },
+            {
+              "no": 6,
+              "title": "SW or AI",
+              "link": "https://sai.software.kr/_static/contents/2023middle/01/01_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "어떤 학습 방식일까?",
+              "link": "https://sai.software.kr/_static/contents/2023middle/01/01_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "[AI로 스마트홈 만들기] 소프트웨어 VS 인공지능 기술",
+              "link": "https://sai.software.kr/_static/contents/2023middle/01/01_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "포즈에 따라 동작하는 인공지능 조명 만들기 -1",
+              "link": "https://sai.software.kr/_static/contents/2023middle/01/01_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "포즈에 따라 동작하는 인공지능 조명 만들기 -2",
+              "link": "https://sai.software.kr/_static/contents/2023middle/01/01_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "인공지능은 어떤 역할을 하고 있을까?",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=01/11",
+              "type": "video"
+            },
+            {
+              "no": 12,
+              "title": "인공지능의 특징 알기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/01/01_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "[인공지능 기술 아이디어 공모!] 인공지능 활용 방안",
+              "link": "https://sai.software.kr/_static/contents/2023middle/01/01_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 2,
+          "title": "데이터 분석과 인공지능",
+          "activities": [
+            {
+              "no": 1,
+              "title": "데이터 분석과 수집을 통한 인공지능 원리 알아보기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=02/01",
+              "type": "video"
+            },
+            {
+              "no": 2,
+              "title": "로봇데이터 - 데이터 수집 방법 체험하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/02/02_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "데이터 시각화 및 전처리 필요성(이상치와 결측치)",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=02/03",
+              "type": "video"
+            },
+            {
+              "no": 4,
+              "title": "결측치 제거",
+              "link": "https://sai.software.kr/_static/contents/2023middle/02/02_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "이상치 제거",
+              "link": "https://sai.software.kr/_static/contents/2023middle/02/02_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "시각화한 그래프 분석하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/02/02_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "데이터를 활용한 예측(예측식, 입력값, 출력값)",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=02/07",
+              "type": "video"
+            },
+            {
+              "no": 8,
+              "title": "입력값과 출력값에 따른 예측식과 그래프",
+              "link": "https://sai.software.kr/_static/contents/2023middle/02/02_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "인공지능과 데이터분석 게임 - 줄넘기 데이터 시각화",
+              "link": "https://sai.software.kr/_static/contents/2023middle/02/02_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "인공지능과 데이터 총정리 퀴즈 -1 데이터 수집 방법",
+              "link": "https://sai.software.kr/_static/contents/2023middle/02/02_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "인공지능과 데이터 총정리 퀴즈 -2 데이터 전처리",
+              "link": "https://sai.software.kr/_static/contents/2023middle/02/02_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "인공지능과 데이터 총정리 퀴즈 -3 이상치와 결측치",
+              "link": "https://sai.software.kr/_static/contents/2023middle/02/02_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "인공지능과 데이터 총정리 퀴즈 -4 인공지능과 데이터 분석",
+              "link": "https://sai.software.kr/_static/contents/2023middle/02/02_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 3,
+          "title": "소리인식으로 문제 해결하기 - 아픈 돼지를 찾아라",
+          "activities": [
+            {
+              "no": 1,
+              "title": "인공지능 소리인식의 원리 - 컴퓨터가 소리를 듣는 방법",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=03/01",
+              "type": "video"
+            },
+            {
+              "no": 2,
+              "title": "표본화(샘플링) 과정 확인하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/03/03_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "양자화, 부호화 과정 확인하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/03/03_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "부호화 바로 알기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/03/03_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "소리인식 데이터 수집 - 소리 데이터 특징 추출 및 노이즈 제거",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=03/05",
+              "type": "video"
+            },
+            {
+              "no": 6,
+              "title": "소리인식에 활용되는 데이터",
+              "link": "https://sai.software.kr/_static/contents/2023middle/03/03_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "인공지능과 패턴",
+              "link": "https://sai.software.kr/_static/contents/2023middle/03/03_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "아픈돼지의 소리 특징 구분하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/03/03_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "소리인식 데이터 수집 및 모델 학습",
+              "link": "https://sai.software.kr/_static/contents/2023middle/03/03_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "인공지능 소리인식 기술 활용 예시",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=03/10",
+              "type": "video"
+            },
+            {
+              "no": 11,
+              "title": "소리인식 기술 활용 사례 구분해보기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/03/03_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "소리인식 기술을 어떻게 활용할 수 있을까?",
+              "link": "https://sai.software.kr/_static/contents/2023middle/03/03_12.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 4,
+          "title": "이미지 인식(안면동작 인식기술)",
+          "activities": [
+            {
+              "no": 1,
+              "title": "[고장난 로봇을 대신해 파머를 도와줘!] 이미지인식 인공지능",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=04/01",
+              "type": "video"
+            },
+            {
+              "no": 2,
+              "title": "의사소통(정보 교환) 방안 생각해보기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/04/04_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "숫자를 동작으로 표현하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/04/04_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "동작 인식 기술의 이해와 활용",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=04/04",
+              "type": "video"
+            },
+            {
+              "no": 5,
+              "title": "동작 인식 기술 퀴즈",
+              "link": "https://sai.software.kr/_static/contents/2023middle/04/04_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "동작 인식 게임",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "동작인기술 활용 예시 맞춰보기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/04/04_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "동작 이미지 모으기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/04/04_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "동작 인식을 활용한 문제 해결하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/04/04_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "문제해결하기 위한 과정 나열하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/04/04_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "동작 이미지 매칭 활동",
+              "link": "https://sai.software.kr/_static/contents/2023middle/04/04_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "프로그램에 추가하고 싶은 기능이 있다면?",
+              "link": "https://sai.software.kr/_static/contents/2023middle/04/04_12.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 5,
+          "title": "이미지 인식(사물 분류)",
+          "activities": [
+            {
+              "no": 1,
+              "title": "이미지 인식의 정의 및 기능 - 학습 기반 인공지능",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=05/01",
+              "type": "video"
+            },
+            {
+              "no": 2,
+              "title": "데이터 수집",
+              "link": "https://sai.software.kr/_static/contents/2023middle/05/05_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "데이터 전처리",
+              "link": "https://sai.software.kr/_static/contents/2023middle/05/05_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "데이터 라벨링 - 인공지능 모델에 학습시키기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/05/05_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "이미지 인식 기술의 기능",
+              "link": "https://sai.software.kr/_static/contents/2023middle/05/05_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "학습 기반 인공지능의 문제 해결 단계",
+              "link": "https://sai.software.kr/_static/contents/2023middle/05/05_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "사물 분류를 위한 이미지 인식 기술",
+              "link": "https://sai.software.kr/_static/contents/2023middle/05/05_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "학습 기반 인공지능의 문제 해결 과정",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=05/08",
+              "type": "video"
+            },
+            {
+              "no": 9,
+              "title": "테스트, 성능 평가 및 개선",
+              "link": "https://sai.software.kr/_static/contents/2023middle/05/05_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "관련 용어 정리",
+              "link": "https://sai.software.kr/_static/contents/2023middle/05/05_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "사물 분류를 위한 이미지 인식 기술의 문제 해결 적용 가능성",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=05/12",
+              "type": "video"
+            },
+            {
+              "no": 12,
+              "title": "사물 분류를 위한 이미지 인식 기술의 응용",
+              "link": "https://sai.software.kr/_static/contents/2023middle/05/05_12.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 6,
+          "title": "텍스트 분류",
+          "activities": [
+            {
+              "no": 1,
+              "title": "[앤디를 도와줘!] 마을 축제를 소개하는 챗봇 만들기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=06/01",
+              "type": "video"
+            },
+            {
+              "no": 2,
+              "title": "인공지능 챗봇 체험하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "인공지능 챗봇이란?",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=06/03",
+              "type": "video"
+            },
+            {
+              "no": 4,
+              "title": "텍스트 분류 기술 퀴즈",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "인공지능 챗봇의 정의",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "인공지능 챗봇의 특징",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "인공지능 챗봇 윤리 문제 원인 찾기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "인공지능 챗봇을 만들어보자! (과정, 방법 안내)",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=06/08",
+              "type": "video"
+            },
+            {
+              "no": 9,
+              "title": "축제 관련 질문 수집하고 분류하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "인공지능 챗봇을 만들기 위해 필요한 기능",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "질문 유형별 데이터 수집하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "만들고 싶은 인공지능 챗봇 프로그램 기획하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "인공지능 텍스트 분류 용어 정의",
+              "link": "https://sai.software.kr/_static/contents/2023middle/06/06_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 7,
+          "title": "생성형 인공지능 - 텍스트",
+          "activities": [
+            {
+              "no": 1,
+              "title": "[앤디를 도와줘!] 마을 축제 홍보를 위한 AI 기자 만들기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=07/01",
+              "type": "video"
+            },
+            {
+              "no": 2,
+              "title": "텍스트 기반의 생성형 인공지능 사용법 익히기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/07/07_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "텍스트 기반 생성형 인공지능의 개념",
+              "link": "https://sai.software.kr/_static/contents/2023middle/07/07_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "텍스트 기반 생성형 인공지능의 활용 사례",
+              "link": "https://sai.software.kr/_static/contents/2023middle/07/07_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "텍스트 기반 생성형 인공지능의 필요성과 동작 원리",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=07/05",
+              "type": "video"
+            },
+            {
+              "no": 6,
+              "title": "토큰화 과정 익히기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/07/07_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "임베딩 과정 익히기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/07/07_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "인공지능 모델을 통한 답변 문장 생성 과정 익히기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/07/07_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "텍스트 기반 생성형 인공지능의 동작 과정",
+              "link": "https://sai.software.kr/_static/contents/2023middle/07/07_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "텍스트 기반 생성형 인공지능 관련 용어",
+              "link": "https://sai.software.kr/_static/contents/2023middle/07/07_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "텍스트 기반 생성형 인공지능의 주의사항 및 한계점",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=07/11",
+              "type": "video"
+            },
+            {
+              "no": 12,
+              "title": "개인정보에 안전한 인공지능 만들기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/07/07_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "텍스트 기반 생성형 인공지능의 주의사항",
+              "link": "https://sai.software.kr/_static/contents/2023middle/07/07_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 8,
+          "title": "생성형 인공지능 - 이미지",
+          "activities": [
+            {
+              "no": 1,
+              "title": "[작품 판별하기!] AI가 그린 명화가 있다고?!",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=08/01",
+              "type": "video"
+            },
+            {
+              "no": 2,
+              "title": "이미지 기반 생성형 인공지능의 정의",
+              "link": "https://sai.software.kr/_static/contents/2023middle/08/08_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "이미지 기반 생성형 인공지능의 활용 사례",
+              "link": "https://sai.software.kr/_static/contents/2023middle/08/08_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "이미지 기반 생성형 인공지능의 필요성 및 동작 원리",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=08/04",
+              "type": "video"
+            },
+            {
+              "no": 5,
+              "title": "이미지 기반 생성형 인공지능 동작 원리(GAN) 익히기 -1",
+              "link": "https://sai.software.kr/_static/contents/2023middle/08/08_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "이미지 기반 생성형 인공지능 동작 원리(GAN) 익히기 -2",
+              "link": "https://sai.software.kr/_static/contents/2023middle/08/08_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "이미지 기반 생성형 인공지능 동작 원리(GAN) 익히기 -3",
+              "link": "https://sai.software.kr/_static/contents/2023middle/08/08_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "이미지 기반 생성형 인공지능 사용법 익히기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/08/08_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "이미지 기반 생성형 인공지능의 필요성",
+              "link": "https://sai.software.kr/_static/contents/2023middle/08/08_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "적대적 생성 신경망",
+              "link": "https://sai.software.kr/_static/contents/2023middle/08/08_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "이미지 기반 생성형 인공지능의 주의사항",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=08/11",
+              "type": "video"
+            },
+            {
+              "no": 12,
+              "title": "이미지 기반 생성형 인공지능의 주의사항 이해하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/08/08_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "[인공지능 윤리] 딥페이크",
+              "link": "https://sai.software.kr/_static/contents/2023middle/08/08_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 9,
+          "title": "인공지능 윤리 기초",
+          "activities": [
+            {
+              "no": 1,
+              "title": "인공지능 기술의 순기와 역기능",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=09/01",
+              "type": "video"
+            },
+            {
+              "no": 2,
+              "title": "실생활에 활용되는 인공지능 기술의 순기능과 역기능 매칭하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/09/09_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "인공지능의 순기능과 역기능 분류하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/09/09_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "인공지능 딜레마",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=09/04",
+              "type": "video"
+            },
+            {
+              "no": 5,
+              "title": "인공지능 윤리의 필요성",
+              "link": "https://sai.software.kr/_static/contents/2023middle/09/09_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "인공지능 윤리 O, X 게임",
+              "link": "https://sai.software.kr/_static/contents/2023middle/09/09_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "인공지능 공정성을 위한 역할과 책임",
+              "link": "https://sai.software.kr/_static/contents/2023middle/09/09_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "인공지능 윤리의 문제를 해결하기 위한 실천 방안",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=09/08",
+              "type": "video"
+            },
+            {
+              "no": 9,
+              "title": "편향성을 줄이기 위한 방법",
+              "link": "https://sai.software.kr/_static/contents/2023middle/09/09_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "성별을 분류하는 인공지능 프로그램 만들기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/09/09_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "데이터 관리를 위한 개인정보수집 이용 동의서 완성하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/09/09_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "데이터 셋에서 편향성 요소 찾기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/09/09_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "편향성을 줄이기 위한 방안",
+              "link": "https://sai.software.kr/_static/contents/2023middle/09/09_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 10,
+          "title": "인공지능 시대의 윤리 가이드 - 미래를 위한 10대 원칙",
+          "activities": [
+            {
+              "no": 1,
+              "title": "인공지능 윤리 10대 기준 -1 (인권 보장, 침해 금지, 프라이버시 보호, 데이터 관리)",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=10/01",
+              "type": "video"
+            },
+            {
+              "no": 2,
+              "title": "개인정보 종류 구분하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/10/10_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "개인정보 비식별 조치",
+              "link": "https://sai.software.kr/_static/contents/2023middle/10/10_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "인공지능 윤리 기준",
+              "link": "https://sai.software.kr/_static/contents/2023middle/10/10_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "인권 보장의 개념",
+              "link": "https://sai.software.kr/_static/contents/2023middle/10/10_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "개인정보의 유형",
+              "link": "https://sai.software.kr/_static/contents/2023middle/10/10_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "인공지능 윤리 10대 기준 -2 (책임성, 투명성, 안정성)",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=10/07",
+              "type": "video"
+            },
+            {
+              "no": 8,
+              "title": "자율주행 로봇의 윤리적 딜레마 상황",
+              "link": "https://sai.software.kr/_static/contents/2023middle/10/10_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "자율주행 로봇의 윤리적 설계 가이드라인 만들기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/10/10_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "인공지능의 책임 주체에 다른 역할",
+              "link": "https://sai.software.kr/_static/contents/2023middle/10/10_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "인공지능 윤리 10대 기준 -3 (다양성 존중, 공공성, 연대성)",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=10/11",
+              "type": "video"
+            },
+            {
+              "no": 12,
+              "title": "인공지능 기반 기술로 지속 가능 발전 목표 달성하기",
+              "link": "https://sai.software.kr/_static/contents/2023middle/10/10_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "다양성을 존중하는 인공지능 개발을 위한 방안",
+              "link": "https://sai.software.kr/_static/contents/2023middle/10/10_13.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 14,
+              "title": "엔딩",
+              "link": "https://sai.software.kr/_static/contents/2023middle/video.html?url=10/14",
+              "type": "video"
+            }
+          ]
+        }
+      ],
+      "guides": {
+        "student": "https://sai.software.kr/api/resource/deda3372-4e7a-44c9-b5e3-03543403e80b",
+        "teacher": "https://sai.software.kr/api/resource/d9a21c74-43f4-4ffc-bd4f-994083d0b7ed"
+      }
+    },
+    {
+      "id": "sos",
+      "title": "정보 [S.O.S 세계수를 구하라]",
+      "body": "AI 세계를 지키는 수호 나무.\r\n세계수의 데이터베이스가 손실되어 이를 되살리기 위한 수호국의 특별 미션이 시작되었다!",
+      "mapUrl": "https://sai.software.kr/_static/contents/2024middle/map.html",
+      "originUrl": "https://sai.software.kr/middle/ai-education/bcc63a63-746e-40d0-994c-3a01342f82f4",
+      "lessons": [
+        {
+          "no": 1,
+          "title": "인공지능은 무엇일까?",
+          "activities": [
+            {
+              "no": 1,
+              "title": "인공지능이란?",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_01.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 2,
+              "title": "실생활 속 인공지능 찾기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "인공지능의 특징",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "인공지능이 적용되지 않은 소프트웨어와 인공지능이 적용된 소프트웨어",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "인공지능 인식, 추론, 탐색 과정",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "인공지능이 적용된 소프트웨어 구별하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "인공지능의 학습방법과 예시",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "인공지능이 적용된 소프트웨어 찾기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "일상 속의 인공지능과 미래 인공지능",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "인공지능 적용 상황 찾기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "다양한 분야에 적용된 인공지능",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "인공지능 활용 분야",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "인공지능의 장점",
+              "link": "https://sai.software.kr/_static/contents/2024middle/01/01_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 2,
+          "title": "데이터를 풀어라!",
+          "activities": [
+            {
+              "no": 1,
+              "title": "데이터 수집과 관리",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_01.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 2,
+              "title": "나무 데이터 모으기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "식물 생장 데이터 분류하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "데이터 수집의 필요성",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "식물 생장 데이터 분류 기준",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "데이터 시각화와 해석",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "식물 생장 데이터 시각화하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "식물 생장 데이터 해석하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "데이터 시각화 이유",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "데이터의 표현 방법 - 그래프",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "데이터 기반의 문제 해결",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "공기 질 개선 방안 제시하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "데이터 기반의 문제 해결 방법",
+              "link": "https://sai.software.kr/_static/contents/2024middle/02/02_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 3,
+          "title": "인공지능의 재료, 데이터",
+          "activities": [
+            {
+              "no": 1,
+              "title": "학습 데이터의 중요성",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_01.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 2,
+              "title": "학습 데이터가 인공지능 성능에 미치는 영향",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "인공지능 모델 성능과 학습 데이터",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "학습 데이터의 수집",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "이미지 데이터 수집하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "텍스트 데이터 수집하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "이미지 데이터 수집 시 유의사항",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "텍스트 데이터 부족 시 문제점",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "학습 데이터의 분류",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "소리 데이터 분류하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "텍스트 데이터 분류하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "데이터 오분류에 따른 문제점",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "텍스트 데이터 분류의 이점",
+              "link": "https://sai.software.kr/_static/contents/2024middle/03/03_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 4,
+          "title": "인공지능 시스템의 구성",
+          "activities": [
+            {
+              "no": 1,
+              "title": "인공지능 시스템의 개념 및 구성 요소",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_01.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 2,
+              "title": "AI 시스템의 구성 요소 및 동작과정",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "기존 AI 시스템 구성",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "인공지능 시스템 및 이미지 모델의 학습 방법",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "인공지능 시스템 학습 과정",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "모델 학습 시 주의사항",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "이미지 데이터 수집 및 라벨링",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "이미지 데이터 학습 및 테스트",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "이미지 모델 이해",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "소리 모델 학습 방법",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "소리 데이터 수집 및 전처리",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "소리 데이터 테스트하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "소리 모델 이해",
+              "link": "https://sai.software.kr/_static/contents/2024middle/04/04_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 5,
+          "title": "인공지능 시스템의 활용",
+          "activities": [
+            {
+              "no": 1,
+              "title": "인공지능 시스템으로 해결 가능한 문제는?",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_01.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 2,
+              "title": "인공지능으로 해결 가능한 문제의 특징",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "인공지능이 적용된 상황 구분하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "인공지능 문제 해결 과정 (문제 정의 - 데이터 수집 - 모델 학습)",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "인공지능 모델의 학습데이터 이해",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "인공지능을 활용한 문제 해결 과정",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "이미지 데이터 수집",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "인공지능 모델 만들기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "인공지능 문제 해결 과정",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "인공지능의 문제 해결 사례(모델 활용)",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "모델 활용 프로그래밍",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "인공지능 모델 적용 사례",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "인공지능을 통한 문제 해결",
+              "link": "https://sai.software.kr/_static/contents/2024middle/05/05_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 6,
+          "title": "수호나무를 보호해 줘!",
+          "activities": [
+            {
+              "no": 1,
+              "title": "수호나무를 보호해줘",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_01.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 2,
+              "title": "수호나무를 위해 해결할 문제는?",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "인공지능 시스템을 활용한 문제 해결 사례",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "인공지능 시스템 구성을 위한 부품(센서) 모으기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "인공지능 시스템 활용",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "수호나무의 질병 진단 시스템 만들기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "인공지능 프로그램 제작 과정",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "데이터 수집",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "데이터 전처리",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "분류 모델 학습",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "분류 프로그램 조립",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "인공지능 프로그래밍 블록",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "프로그램에 추가하고 싶은 기능",
+              "link": "https://sai.software.kr/_static/contents/2024middle/06/06_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 7,
+          "title": "인공지능 사용을 위한 약속",
+          "activities": [
+            {
+              "no": 1,
+              "title": "문제제기 및 인공지능 윤리 사례",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_01.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 2,
+              "title": "인공지능을 활용할 때 긍정적 영향과 부정적 영향",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "인공지능에서의 윤리적 문제",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "데이터의 수집과 활용에서 발생할 수 있는 인공지능 윤리 문제",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "데이터 편향성",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "인공지능 문제점 해결하기",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "인공지능 문제점과 사례",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "인공지능 수집 및 활용 시 문제점",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "인공지능을 올바르게 사용하는 방법",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "역할별 인공지능 윤리",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "인공지능의 활용 규칙",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "인공지능 윤리",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "인공지능 활용 시 지켜야 할 약속",
+              "link": "https://sai.software.kr/_static/contents/2024middle/07/07_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        },
+        {
+          "no": 8,
+          "title": "너의 꿈을 찾아서, 미래 직업 대탐험!",
+          "activities": [
+            {
+              "no": 1,
+              "title": "초보 정령의 진로고민 상담",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_01.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 2,
+              "title": "인공지능 관련 직업",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_02.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 3,
+              "title": "인공지능 시대의 직업 변화",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_03.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 4,
+              "title": "사라진 직업 찾기 게임",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_04.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 5,
+              "title": "인공지능 로봇 공학 엔지니어 체험",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_05.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 6,
+              "title": "인공지능 로봇 공학자가 하는 일",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_06.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 7,
+              "title": "프롬프트 엔지니어 체험",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_07.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 8,
+              "title": "프롬프트 엔지니어가 하는 일",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_08.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 9,
+              "title": "데이터 과학자 체험",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_09.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 10,
+              "title": "데이터 과학자의 역할",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_10.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 11,
+              "title": "내가 가장 바라는 미래의 직업은?",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_11.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 12,
+              "title": "인공지능 전문가에게 직접 들어보는 인공지능 시대에 필요한 역량",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_12.html?lock=false",
+              "type": "interactive"
+            },
+            {
+              "no": 13,
+              "title": "인공지능 시대에 필요한 마음가짐",
+              "link": "https://sai.software.kr/_static/contents/2024middle/08/08_13.html?lock=false",
+              "type": "interactive"
+            }
+          ]
+        }
+      ],
+      "guides": {
+        "student": "https://sai.software.kr/api/resource/9420a6d1-2bb8-43b1-af9a-73f1156e83ed",
+        "teacher": "https://sai.software.kr/api/resource/1ea0224c-c8e5-4b1a-9446-f9a8fc90732c"
+      }
+    }
+  ],
+  "saiCatalog": {
+    "platformHome": "https://sai.software.kr",
+    "elementary": [
+      {
+        "title": "가디언 기억 찾기 대모험",
+        "url": "https://sai.software.kr/primary/ai-education/36cc0d49-082e-400c-9de7-272bdba808a1"
+      },
+      {
+        "title": "실과 [모모의 신비한 AI 상점]",
+        "url": "https://sai.software.kr/primary/ai-education/65840c37-4f16-465c-8b2c-8a40d5127add"
+      },
+      {
+        "title": "모모와 AI 도깨비",
+        "url": "https://sai.software.kr/primary/ai-education/afcada82-24f3-4266-a784-338d9c8bd125"
+      }
+    ],
+    "middle": [
+      {
+        "title": "도트밸리 속 버그를 잡아라",
+        "url": "https://sai.software.kr/middle/ai-education/ead648ab-c950-478e-b8b0-c9b0a62dfb32"
+      },
+      {
+        "title": "정보 [S.O.S 세계수를 구하라]",
+        "url": "https://sai.software.kr/middle/ai-education/bcc63a63-746e-40d0-994c-3a01342f82f4"
+      },
+      {
+        "title": "AI로 Level-up!",
+        "url": "https://sai.software.kr/middle/ai-education/02607eb3-5a4d-44c7-96ff-470b57a4d804"
+      }
+    ],
+    "high": [
+      {
+        "title": "인공지능 기초",
+        "url": "https://sai.software.kr/high/ai-education/456b7875-4207-457f-b1b0-f164a34af9c7"
+      },
+      {
+        "title": "데이터 과학",
+        "url": "https://sai.software.kr/high/ai-education/9d72b045-f2c0-4980-9d40-990a13d906ee"
+      },
+      {
+        "title": "소프트웨어와 생활 [Change Future]",
+        "url": "https://sai.software.kr/high/ai-education/518be7bf-97f3-4ef3-8fd3-545f3cc82f51"
+      },
+      {
+        "title": "슬기로운 AI 탐구생활",
+        "url": "https://sai.software.kr/high/ai-education/9b7dd80c-a345-4161-b006-9788e49a10d0"
+      }
+    ],
+    "highProjects": [
+      {
+        "title": "학급 내 남녀 비율을 고려한 조 추첨하기",
+        "key": "gender-based"
+      },
+      {
+        "title": "새벽 배송을 위한 최단 경로 산출하기",
+        "key": "delivery-path"
+      },
+      {
+        "title": "우리나라 인구 소멸 위기 지역 분석하기",
+        "key": "population"
+      },
+      {
+        "title": "날씨 표시 장치 만들기",
+        "key": "weather-display"
+      },
+      {
+        "title": "AI와 자율주행 자동차",
+        "key": "ai-self-driving"
+      }
+    ]
+  }
+}
