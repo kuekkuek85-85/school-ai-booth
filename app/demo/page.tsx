@@ -1,24 +1,26 @@
-import Link from 'next/link';
+'use client';
+import { DemoSessionProvider, useDemoSession } from '@/lib/demo/session';
+import Entry from '@/components/demo/Entry';
+import LessonHome from '@/components/demo/LessonHome';
 
-export default function DemoHomePage() {
+export default function DemoPage() {
   return (
-    <main
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '0.75rem',
-        padding: '2rem',
-        textAlign: 'center',
-      }}
-    >
-      <h1 style={{ fontSize: '1.75rem' }}>데이터를 풀어라!</h1>
-      <p>시연용 차시 웹앱 (T11부터 구현 예정)</p>
-      <p style={{ opacity: 0.6, fontSize: '0.9rem' }}>
-        부스 홈으로 <Link href="/" style={{ textDecoration: 'underline' }}>돌아가기</Link>
-      </p>
-    </main>
+    <DemoSessionProvider>
+      <PhaseSwitch />
+    </DemoSessionProvider>
   );
+}
+
+function PhaseSwitch() {
+  const { ready, profile } = useDemoSession();
+
+  if (!ready) {
+    return (
+      <main style={{ minHeight: '100vh', display: 'grid', placeItems: 'center' }}>
+        <p style={{ color: 'var(--color-text-muted)' }}>불러오는 중…</p>
+      </main>
+    );
+  }
+  if (!profile) return <Entry />;
+  return <LessonHome />;
 }
