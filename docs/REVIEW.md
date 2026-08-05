@@ -2,6 +2,12 @@
 
 검토: Claude CLI / 대상 행사 2026-08-06. 범례: ✅ 검증 완료 · 🧩 코드 구현 완료(라이브 검증 대기) · ⏳ 사용자 작업 필요
 
+## 프로덕션 배포 게이트 (2026-08-05, https://school-ai-booth.vercel.app)
+- ✅ 배포 완료. 전 페이지 200: `/` `/demo` `/teacher` `/demo/teacher` `/demo/how`
+- ✅ 환경변수 주입 확인: 서버 `TEACHER_PIN`(verify-pin 정답/오답 정상)·`GEMINI_API_KEY`(feedback 도달도 생성), 클라이언트 `NEXT_PUBLIC_FIREBASE_*`(서빙 JS에 authDomain·projectId 인라인)
+- ✅ Firestore 규칙 배포 완료(사용자) → 입장·도장·대시보드 영구 저장 활성
+- 🔎 UI를 통한 실시간 저장 흐름(입장→도장→대시보드)은 localhost에서 검증 완료(규칙 배포 전 유일 블로커였음), 프로덕션 최종 확인만 남음
+
 ## 최종 게이트 (요약)
 - ✅ `npm run build` / `npm run typecheck` 통과 (전 태스크)
 - ✅ 서버 라우트 라이브 검증: `/api/verify-pin`(정답 `{ok:true}`/오답 `{ok:false}`), `/api/feedback`(Gemini 도달도·한줄 피드백 생성 확인)
