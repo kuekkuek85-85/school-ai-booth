@@ -2,6 +2,8 @@
 /** S4 학교 적용 사례 — 전환기 완주 · 정규수업 재구성(시연 웹앱) · 공개수업 실전 사례. */
 import Link from 'next/link';
 import { DEMO_LESSON_URL } from '@/lib/constants';
+import { useBoothSession } from '@/lib/booth/session';
+import { getContent } from '@/lib/data/content';
 
 interface Props {
   /** 지식그래프 섹션으로 이동(재구성 시연) */
@@ -9,6 +11,9 @@ interface Props {
 }
 
 export default function CaseStudy({ onExploreGraph }: Props) {
+  const { round } = useBoothSession();
+  const stampUrl = round ? getContent(round).mapUrl : undefined;
+
   return (
     <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
       <div>
@@ -19,12 +24,15 @@ export default function CaseStudy({ onExploreGraph }: Props) {
       </div>
 
       <div style={{ display: 'grid', gap: 'var(--space-4)' }}>
-        {/* 1. 전환기 완주 */}
-        <CaseCard n={1} badge="전환기 교육" title="통째로 완주 — 학습 도장 모으기 + 이수증">
+        {/* 1. 전환기 완주 → 학습 도장 모으기 페이지(새 탭) */}
+        <CaseCard n={1} badge="전환기 교육" title="통째로 완주 — 학습 도장 모으기 + 이수증" href={stampUrl}>
           <p style={pStyle}>
             전체 차시를 순서대로 완주하면 이수증 발급. 운영 팁: 학습 중 이탈 시 처음부터 →
             차시 단위 운영 권장, 이수증은 PDF로도 저장, 모바일 학습은 불가(데스크톱/노트북/태블릿).
           </p>
+          <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', color: 'var(--color-primary)' }}>
+            학습 도장 모으기 열기 ↗
+          </span>
         </CaseCard>
 
         {/* 2. 정규수업 재구성 → 시연 웹앱 */}
@@ -65,26 +73,28 @@ function CaseCard({
   badge,
   title,
   highlight,
+  href,
   children,
 }: {
   n: number;
   badge: string;
   title: string;
   highlight?: boolean;
+  href?: string;
   children: React.ReactNode;
 }) {
-  return (
-    <article
-      style={{
-        padding: 'var(--space-5)',
-        borderRadius: 'var(--radius-lg)',
-        background: highlight ? 'var(--theme-tint, var(--color-surface-2))' : 'var(--color-surface)',
-        border: `2px solid ${highlight ? 'var(--color-primary)' : 'var(--color-border)'}`,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--space-2)',
-      }}
-    >
+  const cardStyle: React.CSSProperties = {
+    padding: 'var(--space-5)',
+    borderRadius: 'var(--radius-lg)',
+    background: highlight ? 'var(--theme-tint, var(--color-surface-2))' : 'var(--color-surface)',
+    border: `2px solid ${highlight ? 'var(--color-primary)' : 'var(--color-border)'}`,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-2)',
+    ...(href ? { cursor: 'pointer', boxShadow: 'var(--shadow-sm)' } : {}),
+  };
+  const inner = (
+    <>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
         <span
           style={{
@@ -106,8 +116,17 @@ function CaseCard({
       </div>
       <h3 style={{ fontSize: 'var(--fs-lg)' }}>{title}</h3>
       {children}
-    </article>
+    </>
   );
+
+  if (href) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" style={cardStyle}>
+        {inner}
+      </a>
+    );
+  }
+  return <article style={cardStyle}>{inner}</article>;
 }
 
 const pStyle: React.CSSProperties = {
