@@ -8,17 +8,17 @@
 
 ---
 
-## 0. 결정 필요 (PRD 간 충돌·미확정 — 사용자 확정 요청)
+## 0. 결정 사항 (확정 완료)
 
-각 항목에 **권장안**을 달았습니다. 별도 이견 없으시면 권장안대로 확정하고 진행하겠습니다.
+모든 결정이 확정됨(2026-08-05). 아래대로 구현한다.
 
-| # | 쟁점 | 상세 | 권장안 |
+| # | 쟁점 | 확정 내용 | 상태 |
 |---|---|---|---|
-| **D1** | Firebase 클라이언트 환경변수 접두사 | 두 앱 모두 브라우저에서 Firebase를 직접 쓰므로 웹 SDK 설정 6종이 **클라이언트에 노출**되어야 함. Next.js는 `NEXT_PUBLIC_` 접두사가 붙은 변수만 클라이언트에 주입. 현재 `.env.example`은 `FIREBASE_*`(접두사 없음). | `.env.example`의 Firebase 6종을 **`NEXT_PUBLIC_FIREBASE_*`**로 개명. `GEMINI_API_KEY`는 서버 전용이므로 접두사 없이 유지. (Firebase 웹 설정 노출은 정상·안전 — 보안은 규칙으로 담보) |
-| **D2** | lesson-demo 세션 ID 불일치 | lesson-demo PRD는 `booth-1200`/`booth-1500`, 그러나 `WORKFLOW` 마감 게이트는 "lesson-demo 세션 **dotvalley-1200** 초기 상태"로 표기. 서로 다름. | lesson-demo는 PRD대로 **`booth-1200`/`booth-1500`** 사용(부스 앱 세션 `dotvalley-1200`/`sos-1500`와는 별개 루트라 충돌 없음). 마감 게이트 문구는 오기로 간주. |
-| **D3** | TEACHER_PIN 검증 방식 | 두 PRD 데이터모델은 PIN을 Firestore(`config/booth`, `config/app`)에 저장. 그러나 `.env.example`엔 `TEACHER_PIN` 환경변수도 존재. | **환경변수 `TEACHER_PIN`을 단일 소스**로 삼고, 서버 라우트(또는 빌드 주입)에서 검증. Firestore `config` 문서에는 저장하지 않음(키 유출면 최소화). 두 앱 동일 PIN 공유. |
-| **D4** | 보안 규칙 '본인 문서만 쓰기' 구현 | 두 PRD 모두 "본인 문서만 쓰기"를 요구하나 로그인은 없음. 익명 상태에선 규칙으로 소유권을 강제할 수 없음. | **Firebase Anonymous Auth 도입**(입장 시 자동 익명 로그인 → `request.auth.uid`를 pid로 사용). 규칙에서 `resource.id == request.auth.uid` 검증 가능. 사용자 체감 변화 없음. |
-| **D5** | 배포 단위·모노레포 툴링 | 앱 2개를 어떻게 배포·구성? DEMO_LESSON_URL 주입 순서. | **Vercel 프로젝트 2개**(booth, lesson-demo)를 같은 GitHub 리포의 각 `apps/*`에서 배포. 툴링은 **npm workspaces + Turborepo**. lesson-demo 먼저 배포 → 그 프로덕션 URL을 booth의 `DEMO_LESSON_URL`에 주입. |
+| **D1** | Firebase 클라이언트 환경변수 접두사 | Firebase 6종을 **`NEXT_PUBLIC_FIREBASE_*`**로 사용(`.env.example` 반영 완료). `GEMINI_API_KEY`는 서버 전용. 실제 값은 gitignore된 `.env`. | ✅ 확정 |
+| **D2** | lesson-demo 세션 ID | **PRD대로 `booth-1200`/`booth-1500`** 사용. 마감 게이트의 `dotvalley-1200`은 오기로 간주. | ✅ 확정 |
+| **D3** | TEACHER_PIN 검증 방식 | **환경변수 `TEACHER_PIN` 단일 소스**, Firestore 미저장, 두 앱 공유. **PIN 값 = `123456`**(`.env`에 저장, 커밋 금지). | ✅ 확정 |
+| **D4** | 보안 규칙 '본인 문서만 쓰기' | **Firebase Anonymous Auth 도입** → `request.auth.uid`를 pid로. 규칙에서 소유권 검증. ⚠️ **Firebase 콘솔에서 익명 로그인 활성화 필요**(구현 전 선행). | 🔧 콘솔 설정 대기 |
+| **D5** | 배포 단위·모노레포 툴링 | **Vercel 프로젝트 2개**(booth, lesson-demo) + **npm workspaces + Turborepo**. lesson-demo 먼저 배포 → 그 URL을 booth `DEMO_LESSON_URL`에 주입. | ✅ 확정 |
 
 ---
 
