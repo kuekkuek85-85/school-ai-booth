@@ -5,12 +5,23 @@
  */
 import { useBoothSession } from '@/lib/booth/session';
 import { usePresenterNav } from '@/lib/booth/presenter';
+import dynamic from 'next/dynamic';
 import TopBar, { type SectionMeta } from '@/components/booth/TopBar';
 import MissionBoard from '@/components/booth/MissionBoard';
 import Opening from '@/components/booth/Opening';
 import CaseStudy from '@/components/booth/CaseStudy';
 import Closing from '@/components/booth/Closing';
 import { THEME_CLASS } from '@/lib/theme/tokens';
+
+// 3D 그래프는 WebGL 클라이언트 전용 → SSR 비활성
+const KnowledgeGraph = dynamic(() => import('@/components/booth/KnowledgeGraph'), {
+  ssr: false,
+  loading: () => (
+    <p style={{ color: 'var(--color-text-muted)', padding: 'var(--space-6)', textAlign: 'center' }}>
+      지식그래프 불러오는 중…
+    </p>
+  ),
+});
 
 const SECTIONS: SectionMeta[] = [
   { id: 'opening', label: '오프닝' },
@@ -57,30 +68,9 @@ function renderSection(id: string, goGraph: () => void) {
       return <CaseStudy onExploreGraph={goGraph} />;
     case 'resources':
       return <Closing />;
+    case 'graph':
+      return <KnowledgeGraph />;
     default:
-      // graph(S3)는 T14에서 구현
-      return <SectionPlaceholder id={id} label="지식그래프" />;
+      return null;
   }
-}
-
-/** T14에서 실제 섹션 컴포넌트로 교체될 자리(graph) */
-function SectionPlaceholder({ id, label }: { id: string; label: string }) {
-  return (
-    <section
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 'var(--space-3)',
-        minHeight: '60vh',
-        textAlign: 'center',
-      }}
-    >
-      <h2 style={{ fontSize: 'var(--fs-2xl)' }}>{label}</h2>
-      <p style={{ color: 'var(--color-text-muted)' }}>
-        섹션 <code>{id}</code> — 이후 태스크에서 구현됩니다. (←/→·스페이스로 이동, P로 빔 모드)
-      </p>
-    </section>
-  );
 }
