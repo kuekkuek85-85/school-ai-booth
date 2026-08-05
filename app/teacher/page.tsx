@@ -7,6 +7,7 @@ import KpiTiles from '@/components/common/KpiTiles';
 import Toasts from '@/components/common/Toasts';
 import { resetBoothSession, useBoothDashboard } from '@/lib/booth/dashboard';
 import { useCompletionAlerts } from '@/lib/common/useCompletionAlerts';
+import PresenterControls from '@/components/booth/PresenterControls';
 import { BOOTH_ROUNDS } from '@/lib/data/missions';
 import { THEME_CLASS, type ContentId } from '@/lib/theme/tokens';
 
@@ -82,7 +83,8 @@ function Dashboard() {
           })}
         </div>
 
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 'var(--space-2)' }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
+          <PresenterControls sessionId={round.sessionId} contentId={tab} contentTitle={round.title} />
           <button
             onClick={() => setMasked((v) => !v)}
             style={toolBtn}

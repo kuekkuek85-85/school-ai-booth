@@ -11,6 +11,7 @@ import MissionBoard from '@/components/booth/MissionBoard';
 import Opening from '@/components/booth/Opening';
 import CaseStudy from '@/components/booth/CaseStudy';
 import Closing from '@/components/booth/Closing';
+import PresentationOverlay from '@/components/booth/PresentationOverlay';
 import { THEME_CLASS } from '@/lib/theme/tokens';
 
 // 3D 그래프는 WebGL 클라이언트 전용 → SSR 비활성
@@ -32,7 +33,7 @@ const SECTIONS: SectionMeta[] = [
 ];
 
 export default function BoothShell() {
-  const { round, clearRound } = useBoothSession();
+  const { round, clearRound, sessionId } = useBoothSession();
   const { index, goTo } = usePresenterNav(SECTIONS.length);
   const graphIndex = SECTIONS.findIndex((s) => s.id === 'graph');
   if (!round) return null;
@@ -52,6 +53,9 @@ export default function BoothShell() {
       <div style={{ maxWidth: 1120, margin: '0 auto', padding: 'var(--space-6) var(--space-5)' }}>
         {renderSection(SECTIONS[index].id, () => goTo(graphIndex))}
       </div>
+
+      {/* 강사 발표 동기화 — 교사가 [설명 시작] 시 이 화면을 전체화면으로 덮음 */}
+      <PresentationOverlay sessionId={sessionId} contentId={round} />
     </div>
   );
 }

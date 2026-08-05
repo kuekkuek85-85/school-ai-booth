@@ -31,6 +31,11 @@ service cloud.firestore {
       allow create, update: if ownsDoc(pid);
       allow delete: if signedIn();
     }
+    // 발표 동기화: 교사 대시보드가 슬라이드 상태를 write, 수강생이 read (데모 수준).
+    match /booth/{sessionId}/control/{docId} {
+      allow read: if signedIn();
+      allow write: if signedIn();
+    }
 
     // ---- 차시앱 ----
     match /sessions/{sessionId}/students/{sid} {

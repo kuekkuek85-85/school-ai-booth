@@ -69,6 +69,20 @@ export function boothProgressDoc(
   );
 }
 
+/* ---- 발표 동기화(교사→수강생 강제 슬라이드) ---- */
+export interface PresentationControl {
+  active: boolean;
+  slide: number;
+  updatedAt: Timestamp | null;
+}
+export function presentationDoc(
+  sessionId: string,
+): DocumentReference<PresentationControl> {
+  return doc(db, 'booth', sessionId, 'control', 'presentation').withConverter(
+    converter<PresentationControl>(),
+  );
+}
+
 /* ===================== 차시앱 ===================== */
 
 export interface Student {
