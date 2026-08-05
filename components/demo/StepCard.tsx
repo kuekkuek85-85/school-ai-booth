@@ -1,11 +1,10 @@
 'use client';
-/** 차시 단계 카드 — 활동 딥링크(새 탭) + 완료 체크 + (전개3) 산출물 텍스트 제출. */
+/** 차시 단계 카드 — 활동 딥링크(새 탭) + AI 안내 + 완료 체크 + (마지막) 산출물 제출. */
 import { useEffect, useState } from 'react';
-import { getActivity } from '@/lib/data/content';
-import { DEMO_CONTENT_ID, type DemoStep } from '@/lib/data/missions';
+import type { WorksheetStep } from '@/lib/demo/worksheet';
 
 interface Props {
-  step: DemoStep;
+  step: WorksheetStep;
   index: number;
   done: boolean;
   onToggle: () => void;
@@ -14,9 +13,6 @@ interface Props {
 }
 
 export default function StepCard({ step, index, done, onToggle, artifact, onSaveArtifact }: Props) {
-  const activity = step.ref
-    ? getActivity(DEMO_CONTENT_ID, step.ref.lesson, step.ref.activity)
-    : null;
   const [text, setText] = useState(artifact ?? '');
   const [saved, setSaved] = useState(false);
 
@@ -60,10 +56,14 @@ export default function StepCard({ step, index, done, onToggle, artifact, onSave
         </div>
       </header>
 
+      {step.guide && (
+        <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>💡 {step.guide}</p>
+      )}
+
       <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-        {activity && (
+        {step.link && (
           <a
-            href={activity.link}
+            href={step.link}
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -78,7 +78,7 @@ export default function StepCard({ step, index, done, onToggle, artifact, onSave
               fontSize: 'var(--fs-sm)',
             }}
           >
-            {activity.type === 'video' ? '🎬' : '🕹️'} 활동 열기 ↗
+            {step.type === 'video' ? '🎬' : '🕹️'} 활동 열기 ↗
           </a>
         )}
         <button
@@ -98,11 +98,10 @@ export default function StepCard({ step, index, done, onToggle, artifact, onSave
         </button>
       </div>
 
-      {/* 전개3 산출물 제출 */}
       {step.artifact && onSaveArtifact && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
           <label style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)' }}>
-            데이터 해석 의견 (산출물)
+            산출물 (데이터 해석 의견)
           </label>
           <textarea
             value={text}
@@ -111,7 +110,7 @@ export default function StepCard({ step, index, done, onToggle, artifact, onSave
               setSaved(false);
             }}
             rows={3}
-            placeholder="식물 생장 데이터를 해석한 의견을 작성하세요."
+            placeholder="활동을 바탕으로 알게 된 점·해석을 작성하세요."
             style={{
               padding: 'var(--space-3)',
               border: '1px solid var(--color-border)',
@@ -140,9 +139,7 @@ export default function StepCard({ step, index, done, onToggle, artifact, onSave
             >
               제출 / 수정
             </button>
-            {saved && (
-              <span style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-success)' }}>저장됨 ✓</span>
-            )}
+            {saved && <span style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-success)' }}>저장됨 ✓</span>}
           </div>
         </div>
       )}

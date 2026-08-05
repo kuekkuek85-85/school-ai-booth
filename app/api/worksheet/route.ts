@@ -23,6 +23,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ spec: worksheetFromInput({ standards: [], activities: [] }) });
   }
 
+  // 발행된 바구니가 없으면 AI 호출 없이 기본 차시로
+  if (!input.activities.length) {
+    return NextResponse.json({ spec: worksheetFromInput(input) });
+  }
+
   const key = process.env.GEMINI_API_KEY;
   if (!key) return NextResponse.json({ spec: worksheetFromInput(input) });
 

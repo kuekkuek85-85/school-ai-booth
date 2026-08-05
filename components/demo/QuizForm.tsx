@@ -2,9 +2,9 @@
 /** 형성평가 3문항 — 객관식(q2) 자동 채점, 단답(q1·q3) 저장. */
 import { useEffect, useState } from 'react';
 import { useDemoProgress } from '@/lib/demo/progress';
-import { DEMO_QUIZ } from '@/lib/data/missions';
+import type { QuizQuestion } from '@/lib/data/missions';
 
-export default function QuizForm() {
+export default function QuizForm({ quiz }: { quiz: QuizQuestion[] }) {
   const { data, submitQuiz, requestFeedback } = useDemoProgress();
   const [q1, setQ1] = useState('');
   const [q2, setQ2] = useState<number>(-1);
@@ -22,7 +22,7 @@ export default function QuizForm() {
     }
   }, [data.quiz]);
 
-  const choiceQ = DEMO_QUIZ.find((q) => q.id === 'q2');
+  const choiceQ = quiz.find((q) => q.id === 'q2');
   const answerIndex = choiceQ && choiceQ.type === 'choice' ? choiceQ.answerIndex : 0;
   const canSubmit = q1.trim() && q2 >= 0 && q3.trim();
 
@@ -53,7 +53,7 @@ export default function QuizForm() {
     >
       <h3 style={{ fontSize: 'var(--fs-lg)' }}>형성평가</h3>
 
-      {DEMO_QUIZ.map((q, i) => (
+      {quiz.map((q, i) => (
         <div key={q.id} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
           <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)' }}>
             {i + 1}. {q.prompt}
