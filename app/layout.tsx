@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import ClickSpark from '@/components/reactbits/ClickSpark';
+import Footer from '@/components/common/Footer';
 
 export const metadata: Metadata = {
   title: 'School AI 부스',
@@ -30,6 +31,7 @@ export default function RootLayout({
         >
           {children}
         </ClickSpark>
+        <Footer />
       </body>
     </html>
   );
