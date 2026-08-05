@@ -9,6 +9,9 @@ node_modules/
 # Next.js 빌드 산출물
 .next/
 out/
+build/
+next-env.d.ts
+*.tsbuildinfo
 
 # 로그·잡파일
 *.log
