@@ -17,6 +17,7 @@ import {
 import { ALL_STANDARD_CODES, lessonsForStandard } from '@/lib/data/standards';
 import { GRAPH } from '@/lib/theme/tokens';
 import { useBasket } from '@/lib/booth/basket';
+import { publishBasket } from '@/lib/booth/publish';
 import GraphSidePanel from '@/components/booth/GraphSidePanel';
 import BasketTray from '@/components/booth/BasketTray';
 import ListFallback from '@/components/booth/ListFallback';
@@ -299,6 +300,7 @@ export default function KnowledgeGraph() {
         onRemove={basket.remove}
         onClear={basket.clear}
         exportMarkdown={basket.exportMarkdown}
+        onPublish={() => publishBasket(basket.items)}
       />
     </section>
   );

@@ -44,6 +44,12 @@ service cloud.firestore {
       allow delete: if signedIn();
     }
 
+    // ---- 발행된 활동지(부스 바구니 → 차시앱 공유) ----
+    // 데모 수준: 인증 사용자가 발행/조회. 개인정보 없음(성취기준·활동 링크뿐).
+    match /worksheets/{id} {
+      allow read, write: if signedIn();
+    }
+
     // 그 외 전부 차단
     match /{document=**} {
       allow read, write: if false;

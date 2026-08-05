@@ -8,10 +8,13 @@ interface Props {
   onRemove: (id: string) => void;
   onClear: () => void;
   exportMarkdown: () => string;
+  /** 차시앱으로 발행(worksheets/active 저장) */
+  onPublish: () => Promise<void>;
 }
 
-export default function BasketTray({ items, onRemove, onClear, exportMarkdown }: Props) {
+export default function BasketTray({ items, onRemove, onClear, exportMarkdown, onPublish }: Props) {
   const [copied, setCopied] = useState(false);
+  const [publishState, setPublishState] = useState<'idle' | 'busy' | 'done' | 'error'>('idle');
 
   async function copy() {
     const md = exportMarkdown();
@@ -21,6 +24,18 @@ export default function BasketTray({ items, onRemove, onClear, exportMarkdown }:
       setTimeout(() => setCopied(false), 2000);
     } catch {
       window.prompt('아래 내용을 복사하세요', md);
+    }
+  }
+
+  async function publish() {
+    setPublishState('busy');
+    try {
+      await onPublish();
+      setPublishState('done');
+      setTimeout(() => setPublishState('idle'), 2500);
+    } catch {
+      setPublishState('error');
+      setTimeout(() => setPublishState('idle'), 2500);
     }
   }
 
@@ -77,6 +92,29 @@ export default function BasketTray({ items, onRemove, onClear, exportMarkdown }:
         }}
       >
         {copied ? '복사됨 ✓' : '내보내기(MD 복사)'}
+      </button>
+      <button
+        onClick={publish}
+        disabled={items.length === 0 || publishState === 'busy'}
+        title="이 바구니로 차시앱 활동지를 생성합니다"
+        style={{
+          padding: 'var(--space-2) var(--space-4)',
+          borderRadius: 'var(--radius-md)',
+          border: '2px solid var(--color-primary)',
+          color: publishState === 'done' ? 'var(--color-primary-contrast)' : 'var(--color-primary)',
+          background: publishState === 'done' ? 'var(--color-primary)' : 'transparent',
+          fontWeight: 'var(--fw-bold)',
+          fontSize: 'var(--fs-sm)',
+          opacity: items.length === 0 ? 0.5 : 1,
+        }}
+      >
+        {publishState === 'busy'
+          ? '발행 중…'
+          : publishState === 'done'
+            ? '차시앱 발행됨 ✓'
+            : publishState === 'error'
+              ? '발행 실패(규칙 확인)'
+              : '🚀 차시앱으로 발행'}
       </button>
       {items.length > 0 && (
         <button onClick={onClear} style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>

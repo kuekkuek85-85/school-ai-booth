@@ -135,3 +135,17 @@ export function demoProgressDoc(
     converter<DemoProgress>(),
   );
 }
+
+/* ============ 발행된 활동지(부스 바구니 → 차시앱 공유) ============ */
+
+export interface PublishedWorksheet {
+  standards: string[];
+  activities: { title: string; label: string; link: string }[];
+  createdAt: Timestamp | null;
+}
+
+export function worksheetDoc(): DocumentReference<PublishedWorksheet> {
+  return doc(db, 'worksheets', 'active').withConverter(
+    converter<PublishedWorksheet>(),
+  );
+}
