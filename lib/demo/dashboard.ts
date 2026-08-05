@@ -20,6 +20,7 @@ export interface DemoRow {
   currentLabel: string;
   artifact: string;
   quiz: DemoProgress['quiz'];
+  level?: '상' | '중' | '하';
 }
 
 const STEP_ORDER = DEMO_STEPS.map((s) => s.id);
@@ -77,6 +78,7 @@ export function useDemoDashboard(sessionId: string) {
         currentLabel: currentLabel(steps),
         artifact: g?.artifact ?? '',
         quiz: g?.quiz ?? null,
+        level: g?.feedback?.level,
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name, 'ko'));

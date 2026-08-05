@@ -60,7 +60,27 @@ export function useDemoProgress() {
     [persist],
   );
 
+  /** Gemini 피드백 요청 → 성공 시 progress에 저장. 실패는 조용히 무시(제출 자체는 항상 성공). */
+  const requestFeedback = useCallback(
+    async (input?: { artifact?: string; q1?: string; q3?: string }) => {
+      if (!uid) return;
+      const body = input ?? { artifact: data.artifact, q1: data.quiz?.q1, q3: data.quiz?.q3 };
+      try {
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const json = (await res.json()) as { feedback: DemoProgress['feedback'] | null };
+        if (json.feedback) persist({ feedback: json.feedback });
+      } catch {
+        /* 조용히 폴백 */
+      }
+    },
+    [uid, data.artifact, data.quiz, persist],
+  );
+
   const completed = Object.values(data.steps).filter(Boolean).length;
 
-  return { data, toggleStep, setArtifact, submitQuiz, completed, total: 5 };
+  return { data, toggleStep, setArtifact, submitQuiz, requestFeedback, completed, total: 5 };
 }

@@ -5,11 +5,12 @@ import { useDemoProgress } from '@/lib/demo/progress';
 import { DEMO_QUIZ } from '@/lib/data/missions';
 
 export default function QuizForm() {
-  const { data, submitQuiz } = useDemoProgress();
+  const { data, submitQuiz, requestFeedback } = useDemoProgress();
   const [q1, setQ1] = useState('');
   const [q2, setQ2] = useState<number>(-1);
   const [q3, setQ3] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loadingFb, setLoadingFb] = useState(false);
 
   // 기존 제출 복구
   useEffect(() => {
@@ -25,12 +26,16 @@ export default function QuizForm() {
   const answerIndex = choiceQ && choiceQ.type === 'choice' ? choiceQ.answerIndex : 0;
   const canSubmit = q1.trim() && q2 >= 0 && q3.trim();
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!canSubmit) return;
     const score = q2 === answerIndex ? 1 : 0;
     submitQuiz({ q1: q1.trim(), q2, q3: q3.trim(), score });
     setSubmitted(true);
+    // Gemini 피드백 요청(실패해도 제출은 정상)
+    setLoadingFb(true);
+    await requestFeedback({ artifact: data.artifact, q1: q1.trim(), q3: q3.trim() });
+    setLoadingFb(false);
   }
 
   return (
@@ -112,6 +117,42 @@ export default function QuizForm() {
           </span>
         )}
       </div>
+
+      {/* Gemini 피드백 */}
+      {submitted && (loadingFb || data.feedback) && (
+        <div
+          style={{
+            background: 'var(--theme-tint, var(--color-surface-2))',
+            borderRadius: 'var(--radius-md)',
+            padding: 'var(--space-3) var(--space-4)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--space-1)',
+            fontSize: 'var(--fs-sm)',
+          }}
+        >
+          <strong style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            🤖 AI 피드백
+            {data.feedback?.level && (
+              <span
+                style={{
+                  fontSize: 'var(--fs-xs)',
+                  padding: '1px var(--space-2)',
+                  borderRadius: 'var(--radius-full)',
+                  background: 'var(--color-primary)',
+                  color: 'var(--color-primary-contrast)',
+                }}
+              >
+                도달도 {data.feedback.level}
+              </span>
+            )}
+          </strong>
+          {loadingFb && !data.feedback && <span style={{ color: 'var(--color-text-muted)' }}>피드백 생성 중…</span>}
+          {data.feedback?.artifact && <span>· 산출물: {data.feedback.artifact}</span>}
+          {data.feedback?.q1 && <span>· 1번: {data.feedback.q1}</span>}
+          {data.feedback?.q3 && <span>· 3번: {data.feedback.q3}</span>}
+        </div>
+      )}
     </form>
   );
 }

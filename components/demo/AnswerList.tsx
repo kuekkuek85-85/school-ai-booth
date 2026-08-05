@@ -20,7 +20,23 @@ export default function AnswerList({ rows, masked }: { rows: DemoRow[]; masked: 
           <ul style={listStyle}>
             {withArtifact.map((r) => (
               <li key={r.uid} style={item}>
-                <strong style={{ fontSize: 'var(--fs-sm)' }}>{nameOf(r)}</strong>
+                <strong style={{ fontSize: 'var(--fs-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                  {nameOf(r)}
+                  {r.level && (
+                    <span
+                      title="AI 도달도 제안(교사 수정 가능)"
+                      style={{
+                        fontSize: 'var(--fs-xs)',
+                        padding: '1px var(--space-2)',
+                        borderRadius: 'var(--radius-full)',
+                        background: 'var(--color-surface-2)',
+                        color: 'var(--color-text-muted)',
+                      }}
+                    >
+                      도달도 {r.level}
+                    </span>
+                  )}
+                </strong>
                 <p style={{ fontSize: 'var(--fs-sm)' }}>{r.artifact}</p>
               </li>
             ))}
