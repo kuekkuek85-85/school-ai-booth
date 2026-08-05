@@ -1,0 +1,52 @@
+rules_version = '2';
+
+// School AI 부스 보안 규칙
+// - 익명 인증(D4) 필수. 문서 ID = request.auth.uid → 본인 문서만 생성/수정.
+// - 읽기: 대시보드가 이름·소속·도장/단계를 봐야 하므로 인증 사용자에게 열되, 개인정보는 소속·성함(및 학번)뿐.
+// - 삭제(회차 리셋=파기): Admin SDK 서버 라우트가 이상적이나 현재 미구성 →
+//   데모 수준으로 인증 사용자에 한해 허용(PRD "PIN 검증 클라이언트 최소화, 데모 수준 OK", PLAN 2.2 주1 폴백 b).
+//   행사 종료 후 이 규칙과 데이터는 폐기. (REVIEW에서 재점검)
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+    // 생성/수정 문서의 uid 필드가 본인이고, 문서 ID와도 일치
+    function ownsDoc(docId) {
+      return signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && docId == request.auth.uid;
+    }
+
+    // ---- 부스 ----
+    match /booth/{sessionId}/participants/{pid} {
+      allow read: if signedIn();
+      allow create, update: if ownsDoc(pid);
+      allow delete: if signedIn(); // 데모 수준 리셋
+    }
+    match /booth/{sessionId}/progress/{pid} {
+      allow read: if signedIn();
+      allow create, update: if ownsDoc(pid);
+      allow delete: if signedIn();
+    }
+
+    // ---- 차시앱 ----
+    match /sessions/{sessionId}/students/{sid} {
+      allow read: if signedIn();
+      allow create, update: if ownsDoc(sid);
+      allow delete: if signedIn();
+    }
+    match /sessions/{sessionId}/progress/{sid} {
+      allow read: if signedIn();
+      allow create, update: if ownsDoc(sid);
+      allow delete: if signedIn();
+    }
+
+    // 그 외 전부 차단
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
