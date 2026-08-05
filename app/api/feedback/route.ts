@@ -16,16 +16,19 @@ export async function POST(req: Request) {
   if (!key) return NextResponse.json({ feedback: null });
 
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-goog-api-key': key },
       body: JSON.stringify({
         contents: [{ parts: [{ text: buildPrompt(input) }] }],
-        generationConfig: { temperature: 0.4, responseMimeType: 'application/json' },
+        generationConfig: {
+          temperature: 0.4,
+          responseMimeType: 'application/json',
+        },
       }),
-      // 응답 지연 대비: 8초 타임아웃
-      signal: AbortSignal.timeout(8000),
+      // 응답 지연 대비 타임아웃
+      signal: AbortSignal.timeout(10000),
     });
     if (!res.ok) return NextResponse.json({ feedback: null });
     const data = (await res.json()) as {

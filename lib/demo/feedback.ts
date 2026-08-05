@@ -10,7 +10,7 @@ export interface FeedbackInput {
   q3?: string;
 }
 
-export const GEMINI_MODEL = 'gemini-2.0-flash';
+export const GEMINI_MODEL = 'gemini-flash-latest';
 
 export const FEEDBACK_SYSTEM = `당신은 중학교 정보 교사를 돕는 채점 보조입니다.
 성취기준 [9정02-03] 실생활 데이터를 표·다이어그램 등 다양한 형태로 구조화한다,
