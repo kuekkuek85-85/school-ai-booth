@@ -6,6 +6,7 @@
 import { useBoothSession } from '@/lib/booth/session';
 import { usePresenterNav } from '@/lib/booth/presenter';
 import TopBar, { type SectionMeta } from '@/components/booth/TopBar';
+import MissionBoard from '@/components/booth/MissionBoard';
 import { THEME_CLASS } from '@/lib/theme/tokens';
 
 const SECTIONS: SectionMeta[] = [
@@ -19,6 +20,7 @@ const SECTIONS: SectionMeta[] = [
 export default function BoothShell() {
   const { round, clearRound } = useBoothSession();
   const { index, goTo, beam, toggleBeam } = usePresenterNav(SECTIONS.length);
+  const graphIndex = SECTIONS.findIndex((s) => s.id === 'graph');
   if (!round) return null;
 
   return (
@@ -36,7 +38,11 @@ export default function BoothShell() {
         onExitRound={clearRound}
       />
       <div style={{ maxWidth: 1120, margin: '0 auto', padding: 'var(--space-6) var(--space-5)' }}>
-        <SectionPlaceholder id={SECTIONS[index].id} label={SECTIONS[index].label} />
+        {SECTIONS[index].id === 'missions' ? (
+          <MissionBoard onExplore={() => goTo(graphIndex)} />
+        ) : (
+          <SectionPlaceholder id={SECTIONS[index].id} label={SECTIONS[index].label} />
+        )}
       </div>
     </div>
   );
