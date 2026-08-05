@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { DEMO_LESSON_URL } from '@/lib/constants';
 import { useBoothSession } from '@/lib/booth/session';
 import { getContent } from '@/lib/data/content';
+import DeckStudio from '@/components/booth/DeckStudio';
 
 interface Props {
   /** 지식그래프 섹션으로 이동(재구성 시연) */
@@ -56,16 +57,22 @@ export default function CaseStudy({ onExploreGraph }: Props) {
           </p>
         </CaseCard>
 
-        {/* 3. 공개수업 실전 사례 → 공개수업 자료(새 탭) */}
-        <CaseCard n={3} badge="공개수업 실전" title="도트밸리 5차시 이미지 인식(사물 분류)" href="https://www.miricanvas.com/ko/v/13s8tly">
-          <p style={pStyle}>
-            도입 영상 → 수집·전처리·라벨링 게임 → 테스트·성능 개선 → 우리 학교 문제 적용 토의.
-            <strong> 체험하신 M1이 바로 이 차시입니다.</strong>
-          </p>
-          <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', color: 'var(--color-primary)' }}>
-            공개수업 자료 열기 ↗
-          </span>
-        </CaseCard>
+        {/* 3. 회차별: 세계수 → 강의 PPTX 생성 / 도트밸리 → 공개수업 실전 */}
+        {round === 'sos' ? (
+          <CaseCard n={3} badge="AI 강의자료" title="바구니로 강의용 PPTX 자동 생성">
+            <DeckStudio />
+          </CaseCard>
+        ) : (
+          <CaseCard n={3} badge="공개수업 실전" title="도트밸리 5차시 이미지 인식(사물 분류)" href="https://www.miricanvas.com/ko/v/13s8tly">
+            <p style={pStyle}>
+              도입 영상 → 수집·전처리·라벨링 게임 → 테스트·성능 개선 → 우리 학교 문제 적용 토의.
+              <strong> 체험하신 M1이 바로 이 차시입니다.</strong>
+            </p>
+            <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', color: 'var(--color-primary)' }}>
+              공개수업 자료 열기 ↗
+            </span>
+          </CaseCard>
+        )}
       </div>
     </section>
   );
