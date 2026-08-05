@@ -3,6 +3,9 @@
 import { useDemoSession } from '@/lib/demo/session';
 import { useDemoProgress } from '@/lib/demo/progress';
 import StepCard from '@/components/demo/StepCard';
+import QuizForm from '@/components/demo/QuizForm';
+import ProgressBar from '@/components/demo/ProgressBar';
+import PeerBoard from '@/components/demo/PeerBoard';
 import StandardChip from '@/components/common/StandardChip';
 import { DEMO_LESSON, DEMO_STEPS } from '@/lib/data/missions';
 import { standardText } from '@/lib/data/standards';
@@ -57,6 +60,8 @@ export default function LessonHome() {
           </p>
         </header>
 
+        <ProgressBar />
+
         {/* 단계 카드 (활동 4개) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
           {DEMO_STEPS.filter((s) => s.id !== 'quiz').map((step, i) => (
@@ -71,21 +76,12 @@ export default function LessonHome() {
             />
           ))}
 
-          {/* 형성평가 — T12에서 QuizForm으로 교체 */}
-          <div
-            id="quiz-slot"
-            style={{
-              border: '1px dashed var(--color-border)',
-              borderRadius: 'var(--radius-lg)',
-              padding: 'var(--space-4)',
-              textAlign: 'center',
-              color: 'var(--color-text-muted)',
-              fontSize: 'var(--fs-sm)',
-            }}
-          >
-            형성평가 3문항 — 다음 단계(T12)에서 구현됩니다.
-          </div>
+          {/* 형성평가 */}
+          <QuizForm />
         </div>
+
+        {/* 동료 현황판 */}
+        <PeerBoard />
       </div>
     </main>
   );
