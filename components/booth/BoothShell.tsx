@@ -7,6 +7,9 @@ import { useBoothSession } from '@/lib/booth/session';
 import { usePresenterNav } from '@/lib/booth/presenter';
 import TopBar, { type SectionMeta } from '@/components/booth/TopBar';
 import MissionBoard from '@/components/booth/MissionBoard';
+import Opening from '@/components/booth/Opening';
+import CaseStudy from '@/components/booth/CaseStudy';
+import Closing from '@/components/booth/Closing';
 import { THEME_CLASS } from '@/lib/theme/tokens';
 
 const SECTIONS: SectionMeta[] = [
@@ -38,17 +41,29 @@ export default function BoothShell() {
         onExitRound={clearRound}
       />
       <div style={{ maxWidth: 1120, margin: '0 auto', padding: 'var(--space-6) var(--space-5)' }}>
-        {SECTIONS[index].id === 'missions' ? (
-          <MissionBoard onExplore={() => goTo(graphIndex)} />
-        ) : (
-          <SectionPlaceholder id={SECTIONS[index].id} label={SECTIONS[index].label} />
-        )}
+        {renderSection(SECTIONS[index].id, () => goTo(graphIndex))}
       </div>
     </div>
   );
 }
 
-/** T08·T09·T14에서 실제 섹션 컴포넌트로 교체될 자리 */
+function renderSection(id: string, goGraph: () => void) {
+  switch (id) {
+    case 'opening':
+      return <Opening />;
+    case 'missions':
+      return <MissionBoard onExplore={goGraph} />;
+    case 'case':
+      return <CaseStudy onExploreGraph={goGraph} />;
+    case 'resources':
+      return <Closing />;
+    default:
+      // graph(S3)는 T14에서 구현
+      return <SectionPlaceholder id={id} label="지식그래프" />;
+  }
+}
+
+/** T14에서 실제 섹션 컴포넌트로 교체될 자리(graph) */
 function SectionPlaceholder({ id, label }: { id: string; label: string }) {
   return (
     <section
