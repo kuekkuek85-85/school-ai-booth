@@ -4,17 +4,23 @@ import { useEffect, useState } from 'react';
 import { useBoothSession } from '@/lib/booth/session';
 import { BOOTH_ROUNDS, MISSIONS } from '@/lib/data/missions';
 import { getContent } from '@/lib/data/content';
+import { activeRoundAt, ROUND_SWITCH } from '@/lib/booth/schedule';
 import { THEME_CLASS, type ContentId } from '@/lib/theme/tokens';
 import QrCode from '@/components/common/QrCode';
 
 const ORDER: ContentId[] = ['dotvalley', 'sos'];
 
 export default function RoundSelect() {
-  const { selectRound, profile } = useBoothSession();
+  const { selectRound, profile, isPresenter } = useBoothSession();
   const [origin, setOrigin] = useState('');
+  const [activeRound, setActiveRound] = useState<ContentId | null>(null);
 
   useEffect(() => {
     setOrigin(window.location.origin);
+    const update = () => setActiveRound(activeRoundAt(new Date()));
+    update();
+    const id = window.setInterval(update, 30000); // 시각 전환 자동 반영
+    return () => window.clearInterval(id);
   }, []);
 
   return (
@@ -35,6 +41,23 @@ export default function RoundSelect() {
             {profile.school} · {profile.name} 님 환영합니다
           </p>
         )}
+        {activeRound && (
+          <p
+            style={{
+              marginTop: 'var(--space-3)',
+              display: 'inline-block',
+              fontSize: 'var(--fs-sm)',
+              background: 'var(--color-surface-2)',
+              borderRadius: 'var(--radius-full)',
+              padding: 'var(--space-2) var(--space-4)',
+            }}
+          >
+            🕒 현재 활성 회차: <strong>{BOOTH_ROUNDS[activeRound].title}</strong>
+            {isPresenter
+              ? ' · 강사 모드: 모든 회차 선택 가능'
+              : ` · ${ROUND_SWITCH.label} 기준으로 도트밸리 → 세계수 전환`}
+          </p>
+        )}
       </header>
 
       <div
@@ -53,22 +76,29 @@ export default function RoundSelect() {
             (s, l) => s + l.activities.length,
             0,
           );
+          // 강사(발표자)는 항상 선택 가능. 수강생은 활성 회차만.
+          const locked = !isPresenter && activeRound !== null && cid !== activeRound;
+          const lockMsg =
+            cid === 'sos' ? `🔒 ${ROUND_SWITCH.label}부터 활성화됩니다` : '🔒 마감된 회차입니다';
           return (
             <button
               key={cid}
               className={THEME_CLASS[cid]}
-              onClick={() => selectRound(cid)}
+              onClick={() => !locked && selectRound(cid)}
+              disabled={locked}
+              aria-disabled={locked}
               style={{
                 textAlign: 'left',
-                background: 'var(--color-surface)',
-                border: '2px solid var(--color-primary)',
+                background: locked ? 'var(--color-surface-2)' : 'var(--color-surface)',
+                border: `2px solid ${locked ? 'var(--color-border)' : 'var(--color-primary)'}`,
                 borderRadius: 'var(--radius-lg)',
-                boxShadow: 'var(--shadow-md)',
+                boxShadow: locked ? 'none' : 'var(--shadow-md)',
                 padding: 'var(--space-6)',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 'var(--space-3)',
-                cursor: 'pointer',
+                cursor: locked ? 'not-allowed' : 'pointer',
+                opacity: locked ? 0.6 : 1,
                 transition: 'transform var(--dur-fast) var(--ease-standard)',
               }}
             >
@@ -103,11 +133,11 @@ export default function RoundSelect() {
               <span
                 style={{
                   marginTop: 'var(--space-2)',
-                  color: 'var(--color-primary)',
+                  color: locked ? 'var(--color-text-muted)' : 'var(--color-primary)',
                   fontWeight: 'var(--fw-bold)',
                 }}
               >
-                이 회차로 입장 →
+                {locked ? lockMsg : '이 회차로 입장 →'}
               </span>
             </button>
           );
