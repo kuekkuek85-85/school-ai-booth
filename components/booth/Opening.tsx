@@ -2,6 +2,7 @@
 /** S1 오프닝 — 세계관 요약 · 진행 4단계 · 두 활용 경로 차이. */
 import { useBoothSession } from '@/lib/booth/session';
 import { BOOTH_ROUNDS } from '@/lib/data/missions';
+import { getContent } from '@/lib/data/content';
 
 const STEPS = ['접수 · 입장', '콘텐츠 체험', '학교 적용 사례', '의견조사 · 기념품'];
 
@@ -9,6 +10,7 @@ export default function Opening() {
   const { round } = useBoothSession();
   if (!round) return null;
   const r = BOOTH_ROUNDS[round];
+  const content = getContent(round);
 
   return (
     <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
@@ -87,11 +89,13 @@ export default function Opening() {
           badge="전환기 교육"
           title="학습 도장 모으기 — 통째로 완주"
           desc="전체 차시를 순서대로 완주하면 이수증 발급. 기말 이후 전환기 수업에 적합."
+          href={content.originUrl}
         />
         <PathCard
           badge="정규수업 재구성"
           title="성취기준에서 출발 — 딥링크 체험"
           desc="필요한 성취기준의 활동만 뽑아 재조합. 오늘은 이 경로로 미션을 체험합니다."
+          href={content.mapUrl}
           highlight
         />
       </div>
@@ -103,15 +107,20 @@ function PathCard({
   badge,
   title,
   desc,
+  href,
   highlight,
 }: {
   badge: string;
   title: string;
   desc: string;
+  href: string;
   highlight?: boolean;
 }) {
   return (
-    <div
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       style={{
         padding: 'var(--space-5)',
         borderRadius: 'var(--radius-lg)',
@@ -120,6 +129,9 @@ function PathCard({
         display: 'flex',
         flexDirection: 'column',
         gap: 'var(--space-2)',
+        cursor: 'pointer',
+        transition: 'box-shadow var(--dur-fast) var(--ease-standard)',
+        boxShadow: 'var(--shadow-sm)',
       }}
     >
       <span
@@ -134,6 +146,9 @@ function PathCard({
       </span>
       <h4 style={{ fontSize: 'var(--fs-md)' }}>{title}</h4>
       <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>{desc}</p>
-    </div>
+      <span style={{ marginTop: 'auto', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', color: 'var(--color-primary)' }}>
+        열기 ↗
+      </span>
+    </a>
   );
 }
