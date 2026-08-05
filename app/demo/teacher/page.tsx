@@ -7,7 +7,10 @@ import DemoGrid from '@/components/demo/DemoGrid';
 import QuizStats from '@/components/demo/QuizStats';
 import AnswerList from '@/components/demo/AnswerList';
 import QrCode from '@/components/common/QrCode';
+import KpiTiles from '@/components/common/KpiTiles';
+import Toasts from '@/components/common/Toasts';
 import { useDemoDashboard, resetDemoSession } from '@/lib/demo/dashboard';
+import { useCompletionAlerts } from '@/lib/common/useCompletionAlerts';
 import { DEMO_SESSIONS, type DemoSessionId } from '@/lib/data/missions';
 
 export default function DemoTeacherPage() {
@@ -24,6 +27,13 @@ function Dashboard() {
   const [resetting, setResetting] = useState(false);
   const [origin, setOrigin] = useState('');
   const { rows, count } = useDemoDashboard(session);
+  const doneCount = rows.filter((r) => r.total > 0 && r.completed >= r.total).length;
+  const quizzed = rows.filter((r) => r.quiz);
+  const correct = quizzed.filter((r) => r.quiz && r.quiz.score >= 1).length;
+  const quizRate = quizzed.length ? Math.round((correct / quizzed.length) * 100) : 0;
+  const { flashing, toasts } = useCompletionAlerts(
+    rows.map((r) => ({ uid: r.uid, done: r.total > 0 && r.completed >= r.total, name: r.name })),
+  );
 
   useEffect(() => {
     setOrigin(window.location.origin);
@@ -106,16 +116,25 @@ function Dashboard() {
           gap: 'var(--space-5)',
         }}
       >
-        {/* 학생 접속 QR + 인원 */}
+        {/* 학생 접속 QR + KPI */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-5)', alignItems: 'center' }}>
           {studentUrl && <QrCode value={studentUrl} caption={`학생 접속 (${session})`} size={140} />}
-          <div style={{ fontSize: 'var(--fs-lg)', fontWeight: 'var(--fw-bold)' }}>참여자 {count}명</div>
+          <div style={{ flex: 1, minWidth: 300 }}>
+            <KpiTiles
+              items={[
+                { label: '참여자', value: `${count}명` },
+                { label: '완주', value: `${doneCount}명`, sub: `${count ? Math.round((doneCount / count) * 100) : 0}%`, accent: true },
+                { label: '객관식 정답률', value: `${quizRate}%`, sub: `제출 ${quizzed.length}명` },
+              ]}
+            />
+          </div>
         </div>
 
         <QuizStats rows={rows} />
-        <DemoGrid rows={rows} masked={masked} />
+        <DemoGrid rows={rows} masked={masked} flashing={flashing} />
         <AnswerList rows={rows} masked={masked} />
       </div>
+      <Toasts toasts={toasts} />
     </main>
   );
 }

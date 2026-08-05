@@ -126,6 +126,40 @@
   animation: chip-pop 0.4s var(--ease-emphasized);
 }
 
+/* ---- 대시보드: 완주 토스트 & 행 플래시 ---- */
+@keyframes toast-pop {
+  0% {
+    transform: translateY(12px) scale(0.9);
+    opacity: 0;
+  }
+  15% {
+    transform: translateY(0) scale(1.05);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.toast-pop {
+  animation: toast-pop 0.4s var(--ease-emphasized);
+}
+
+@keyframes row-flash {
+  0%,
+  100% {
+    background: transparent;
+  }
+  20% {
+    background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  }
+}
+.row-flash td {
+  animation: row-flash 1.2s ease-in-out 2;
+}
+
 /* =========================================================================
    기본 리셋
    ========================================================================= */

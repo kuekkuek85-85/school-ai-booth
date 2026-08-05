@@ -3,7 +3,15 @@
 import type { DemoRow } from '@/lib/demo/dashboard';
 import { maskName } from '@/lib/booth/dashboard';
 
-export default function DemoGrid({ rows, masked }: { rows: DemoRow[]; masked: boolean }) {
+export default function DemoGrid({
+  rows,
+  masked,
+  flashing,
+}: {
+  rows: DemoRow[];
+  masked: boolean;
+  flashing?: Set<string>;
+}) {
   if (rows.length === 0) {
     return <p style={{ color: 'var(--color-text-muted)' }}>아직 입장한 참여자가 없습니다.</p>;
   }
@@ -22,7 +30,7 @@ export default function DemoGrid({ rows, masked }: { rows: DemoRow[]; masked: bo
           {rows.map((r) => {
             const pct = r.total ? Math.round((r.completed / r.total) * 100) : 0;
             return (
-              <tr key={r.uid}>
+              <tr key={r.uid} className={flashing?.has(r.uid) ? 'row-flash' : undefined}>
                 <td style={{ ...cell, textAlign: 'left', fontWeight: 'var(--fw-bold)', whiteSpace: 'nowrap' }}>
                   {masked ? maskName(r.name) : r.name}
                 </td>

@@ -3,7 +3,10 @@
 import { useState } from 'react';
 import PinGate from '@/components/common/PinGate';
 import DashboardGrid from '@/components/booth/DashboardGrid';
-import { resetBoothSession } from '@/lib/booth/dashboard';
+import KpiTiles from '@/components/common/KpiTiles';
+import Toasts from '@/components/common/Toasts';
+import { resetBoothSession, useBoothDashboard } from '@/lib/booth/dashboard';
+import { useCompletionAlerts } from '@/lib/common/useCompletionAlerts';
 import { BOOTH_ROUNDS } from '@/lib/data/missions';
 import { THEME_CLASS, type ContentId } from '@/lib/theme/tokens';
 
@@ -22,6 +25,13 @@ function Dashboard() {
   const [masked, setMasked] = useState(false);
   const [resetting, setResetting] = useState(false);
   const round = BOOTH_ROUNDS[tab];
+
+  const { rows, count } = useBoothDashboard(round.sessionId);
+  const completed = rows.filter((r) => r.done === 3).length;
+  const avgStamp = count ? (rows.reduce((s, r) => s + r.done, 0) / count).toFixed(1) : '0';
+  const { flashing, toasts } = useCompletionAlerts(
+    rows.map((r) => ({ uid: r.uid, done: r.done === 3, name: r.name })),
+  );
 
   async function onReset() {
     if (!window.confirm(`${round.time} ${round.title} 회차 데이터를 모두 삭제(파기)할까요?`)) return;
@@ -90,9 +100,17 @@ function Dashboard() {
         </div>
       </header>
 
-      <div style={{ maxWidth: 1000, margin: '0 auto', padding: 'var(--space-6) var(--space-5)' }}>
-        <DashboardGrid contentId={tab} sessionId={round.sessionId} masked={masked} />
+      <div style={{ maxWidth: 1000, margin: '0 auto', padding: 'var(--space-6) var(--space-5)', display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
+        <KpiTiles
+          items={[
+            { label: '참가자', value: `${count}명` },
+            { label: '완주(3/3)', value: `${completed}명`, sub: `${count ? Math.round((completed / count) * 100) : 0}%`, accent: true },
+            { label: '평균 도장', value: `${avgStamp}`, sub: '/ 3' },
+          ]}
+        />
+        <DashboardGrid rows={rows} masked={masked} flashing={flashing} />
       </div>
+      <Toasts toasts={toasts} />
     </main>
   );
 }
