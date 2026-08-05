@@ -1,76 +1,95 @@
 /* =========================================================================
-   디자인 토큰 (단일 지점) — 추후 design.md 개편 시 이 파일 + lib/theme/tokens.ts만 교체
-   인라인 색상 금지: 모든 색·타이포·모션은 아래 CSS 변수(var(--...))로만 사용
+   디자인 토큰 — Figma 마케팅 디자인 시스템 적용
+   (DESIGN-figma.md) 흑백 에디토리얼 코어 + 오버사이즈 파스텔 색블록.
+   원칙: 그림자·그라디언트 최소화(색블록이 depth), 알약 CTA, 가중치로 위계.
+   * 그래프(데이터 시각화)의 --unit-*·--graph-* 는 기능 색이라 유지.
    ========================================================================= */
 
 :root {
-  /* ---- 중립/표면 ---- */
-  --color-bg: #f7f8fa;
+  /* ---- 흑백 코어 ---- */
+  --color-bg: #ffffff; /* canvas */
   --color-surface: #ffffff;
-  --color-surface-2: #eef1f5;
-  --color-border: #d9dee6;
-  --color-text: #1a202c;
-  --color-text-muted: #5b6472;
+  --color-surface-2: #f7f7f5; /* surface-soft */
+  --color-border: #e6e6e6; /* hairline */
+  --color-border-soft: #f1f1f1; /* hairline-soft */
+  --color-text: #000000; /* ink */
+  --color-text-muted: #6b6b6b; /* 앱 UI 보조 텍스트(캡션·힌트) — 마케팅 카피엔 미사용 */
   --color-text-invert: #ffffff;
 
-  /* ---- 상태 ---- */
-  --color-primary: #2563eb;          /* 기본 강조(테마에서 override) */
-  --color-primary-hover: #1d4ed8;
+  /* ---- 상태/강조 ---- */
+  --color-primary: #000000; /* 모든 primary CTA·선택 상태는 블랙 */
+  --color-primary-hover: #1a1a1a;
   --color-primary-contrast: #ffffff;
-  --color-accent: #0ea5e9;           /* 보조 강조(테마에서 override) */
-  --color-success: #16a34a;
-  --color-warning: #d97706;
-  --color-danger: #dc2626;
+  --color-accent: #ff3d8b; /* magenta promo — 페이지당 1회 정도만 */
+  --color-success: #1ea64a;
+  --color-warning: #b45309;
+  --color-danger: #c0362c;
+
+  /* ---- 파스텔 색블록 ---- */
+  --block-lime: #dceeb1;
+  --block-lilac: #c5b0f4;
+  --block-cream: #f4ecd6;
+  --block-pink: #efd4d4;
+  --block-mint: #c8e6cd;
+  --block-coral: #f3c9b6;
+  --block-navy: #1f1d3d;
 
   /* ---- "교사의 눈" 별색 ---- */
   --color-teacher-eye: #eab308;
 
-  /* ---- 대단원 5색 (지식그래프 노드/칩) ---- */
-  --unit-cs: #3b82f6;       /* 9정01 컴퓨팅 시스템 */
-  --unit-data: #06b6d4;     /* 9정02 데이터 */
-  --unit-algo: #8b5cf6;     /* 9정03 알고리즘과 프로그래밍 */
-  --unit-ai: #f59e0b;       /* 9정04 인공지능 */
-  --unit-culture: #ec4899;  /* 9정05 디지털 문화 */
+  /* ---- 대단원 5색 (지식그래프 노드/칩) — 기능 색, 유지 ---- */
+  --unit-cs: #3b82f6;
+  --unit-data: #06b6d4;
+  --unit-algo: #8b5cf6;
+  --unit-ai: #f59e0b;
+  --unit-culture: #ec4899;
 
-  /* ---- 지식그래프 다크 캔버스 ---- */
+  /* ---- 지식그래프 다크 캔버스 (제품 UI 목업 — 유지) ---- */
   --graph-bg: #0b1020;
   --graph-fg: #e6e9f2;
   --graph-link: #4b5573;
   --graph-link-dashed: #7c86a3;
 
-  /* ---- 타이포 ---- */
-  --font-sans:
-    'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-  --font-mono: 'JetBrains Mono', 'D2Coding', ui-monospace, SFMono-Regular, monospace;
-  --fs-xs: 0.75rem;
-  --fs-sm: 0.875rem;
-  --fs-md: 1rem;
-  --fs-lg: 1.25rem;
-  --fs-xl: 1.5rem;
-  --fs-2xl: 2rem;
-  --fs-3xl: 2.75rem;   /* 빔 모드 제목 */
-  --lh-tight: 1.25;
-  --lh-normal: 1.55;
-  --fw-normal: 400;
-  --fw-medium: 500;
+  /* ---- 타이포 (figmaSans→Pretendard/Inter, figmaMono→JetBrains Mono) ---- */
+  --font-sans: 'Pretendard Variable', 'Pretendard', var(--font-inter),
+    -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', system-ui, sans-serif;
+  --font-mono: var(--font-jbmono), 'JetBrains Mono', ui-monospace, SFMono-Regular, menlo, monospace;
+  --fs-xs: 0.75rem; /* 12 caption */
+  --fs-sm: 0.875rem; /* 14 */
+  --fs-md: 1rem; /* 16 body-sm/base */
+  --fs-lg: 1.25rem; /* 20 body-lg/link/button */
+  --fs-xl: 1.625rem; /* 26 headline/subhead */
+  --fs-2xl: 2.75rem; /* 44 display-lg-ish */
+  --fs-3xl: 4rem; /* 64 display */
+  --lh-tight: 1.05;
+  --lh-normal: 1.45;
+  --fw-normal: 340;
+  --fw-medium: 480;
   --fw-bold: 700;
 
-  /* ---- 간격/반경/그림자 ---- */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-  --space-8: 3rem;
+  /* ---- 간격 (base 8px, section 96px) ---- */
+  --space-1: 0.25rem; /* 4 */
+  --space-2: 0.5rem; /* 8 */
+  --space-3: 0.75rem; /* 12 */
+  --space-4: 1rem; /* 16 */
+  --space-5: 1.5rem; /* 24 */
+  --space-6: 2rem; /* 32 */
+  --space-8: 3rem; /* 48 xxl (색블록 내부 패딩) */
+  --space-section: 6rem; /* 96 */
+
+  /* ---- 반경 ---- */
+  --radius-xs: 2px;
   --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-full: 999px;
-  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
-  --shadow-md: 0 4px 6px -1px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
-  --shadow-lg: 0 12px 24px -8px rgba(16, 24, 40, 0.18);
+  --radius-md: 8px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 50px;
+  --radius-full: 9999px;
+
+  /* ---- 엘리베이션(그림자 최소 — 색블록이 depth) ---- */
+  --shadow-sm: none;
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
 
   /* ---- 모션 ---- */
   --dur-fast: 120ms;
@@ -78,131 +97,130 @@
   --dur-slow: 420ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
+
+  /* 기본 테마 블록/틴트(회차 클래스 없을 때) */
+  --theme-block: var(--block-lime);
+  --theme-tint: var(--surface-soft, #f7f7f5);
 }
 
-/* ---- 회차 테마: 도트밸리 = 탐험 그린 + 도트 모티프 ---- */
+/* ---- 회차 테마: 이제 primary는 블랙 고정, 회차 정체성은 '색블록'으로 ---- */
 .theme-dotvalley {
-  --color-primary: #16a34a;
-  --color-primary-hover: #15803d;
-  --color-accent: #4ade80;
-  --theme-tint: #e9f7ee;         /* 카드 헤더 등 옅은 배경 */
-  --theme-motif: radial-gradient(var(--color-accent) 1.2px, transparent 1.3px);
+  --theme-block: var(--block-mint); /* 도트밸리 = 민트/라임 */
+  --theme-block-2: var(--block-lime);
+  --theme-tint: var(--block-mint);
 }
-
-/* ---- 회차 테마: 세계수 = 숲 앰버 + 잎사귀 모티프 ---- */
 .theme-sos {
-  --color-primary: #d97706;
-  --color-primary-hover: #b45309;
-  --color-accent: #fbbf24;
-  --theme-tint: #fdf4e3;
-  --theme-motif: radial-gradient(var(--color-accent) 1.2px, transparent 1.3px);
+  --theme-block: var(--block-coral); /* 세계수 = 코랄/크림 */
+  --theme-block-2: var(--block-cream);
+  --theme-tint: var(--block-cream);
 }
 
-/* ---- 빔 모드: 발표용 폰트 확대(토큰 오버라이드로 일괄 스케일) ---- */
+/* ---- 빔 모드: 발표용 폰트 확대 ---- */
 .beam-mode {
   --fs-sm: 1rem;
   --fs-md: 1.2rem;
   --fs-lg: 1.55rem;
   --fs-xl: 1.9rem;
-  --fs-2xl: 2.5rem;
-  --fs-3xl: 3.25rem;
+  --fs-2xl: 3rem;
+  --fs-3xl: 4.5rem;
 }
 
-/* ---- 재구성 바구니 칩 담김 애니메이션 ---- */
+/* =========================================================================
+   Figma 유틸리티 — 색블록 · 알약 · 아이브로우/캡션
+   ========================================================================= */
+
+/* 오버사이즈 색블록 섹션 (흰 캔버스 위 파스텔 패널) */
+.color-block {
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  background: var(--theme-block);
+  color: var(--color-text);
+}
+.block-lime { background: var(--block-lime); color: var(--color-text); }
+.block-lilac { background: var(--block-lilac); color: var(--color-text); }
+.block-cream { background: var(--block-cream); color: var(--color-text); }
+.block-pink { background: var(--block-pink); color: var(--color-text); }
+.block-mint { background: var(--block-mint); color: var(--color-text); }
+.block-coral { background: var(--block-coral); color: var(--color-text); }
+.block-navy { background: var(--block-navy); color: var(--color-text-invert); }
+
+/* 모바일 풀블리드(768px↓): 색블록 모서리 제거 */
+@media (max-width: 768px) {
+  .color-block {
+    border-radius: 0;
+  }
+}
+
+/* 알약 CTA (블랙 primary / 화이트 secondary) */
+.pill {
+  border-radius: var(--radius-pill);
+  padding: 0.625rem 1.25rem;
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-lg);
+  line-height: 1.4;
+  letter-spacing: -0.1px;
+  transition: transform var(--dur-fast) var(--ease-standard),
+    background var(--dur-fast) var(--ease-standard);
+}
+.pill:active {
+  transform: scale(0.97);
+}
+.pill-primary {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+.pill-secondary {
+  background: var(--color-canvas, #fff);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+/* 모노 아이브로우/캡션 (택소노미 라벨 — 항상 대문자, 양수 자간) */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  font-weight: 400;
+  letter-spacing: 0.54px;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+.caption {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* =========================================================================
+   유지 애니메이션 (바구니 담김 · 대시보드 완주)
+   ========================================================================= */
 @keyframes chip-pop {
-  0% {
-    transform: scale(0.4);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.25);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0.4); opacity: 0; }
+  60% { transform: scale(1.25); }
+  100% { transform: scale(1); opacity: 1; }
 }
 .basket-chip {
   animation: chip-pop 0.4s var(--ease-emphasized);
 }
 
-/* ---- 대시보드: 완주 토스트 & 행 플래시 ---- */
 @keyframes toast-pop {
-  0% {
-    transform: translateY(12px) scale(0.9);
-    opacity: 0;
-  }
-  15% {
-    transform: translateY(0) scale(1.05);
-    opacity: 1;
-  }
-  30% {
-    transform: scale(1);
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { transform: translateY(12px) scale(0.9); opacity: 0; }
+  15% { transform: translateY(0) scale(1.05); opacity: 1; }
+  30% { transform: scale(1); }
+  100% { opacity: 1; }
 }
 .toast-pop {
   animation: toast-pop 0.4s var(--ease-emphasized);
 }
 
 @keyframes row-flash {
-  0%,
-  100% {
-    background: transparent;
-  }
-  20% {
-    background: color-mix(in srgb, var(--color-primary) 30%, transparent);
-  }
+  0%, 100% { background: transparent; }
+  20% { background: color-mix(in srgb, var(--block-lime) 80%, transparent); }
 }
 .row-flash td {
   animation: row-flash 1.2s ease-in-out 2;
-}
-
-/* =========================================================================
-   react-bits 연동 — 히어로 다크 백드롭 위 글래스/글로우 유틸
-   ========================================================================= */
-
-/* 다크 오로라 위에 떠 보이는 반투명 유리 표면 */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.09);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(14px) saturate(1.2);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.55);
-  color: var(--color-text-invert);
-}
-
-/* 밝은 카드가 다크 배경 위에서 살짝 떠 보이도록 그림자 강화 */
-.hero-float {
-  box-shadow: 0 20px 60px -18px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
-}
-
-/* 콘텐츠 페이지용: 은은하게 흐르는 CSS 그라디언트 배경(WebGL 불필요) */
-.animated-mesh {
-  background:
-    radial-gradient(60% 80% at 12% 10%, color-mix(in srgb, var(--color-primary) 16%, transparent) 0%, transparent 60%),
-    radial-gradient(55% 70% at 88% 8%, color-mix(in srgb, var(--color-accent) 20%, transparent) 0%, transparent 55%),
-    radial-gradient(70% 90% at 50% 110%, color-mix(in srgb, var(--color-primary) 12%, transparent) 0%, transparent 60%),
-    var(--color-bg);
-  background-size: 180% 180%, 180% 180%, 180% 180%, auto;
-  animation: mesh-drift 22s ease-in-out infinite alternate;
-}
-
-@keyframes mesh-drift {
-  0% {
-    background-position: 0% 0%, 100% 0%, 50% 100%, 0 0;
-  }
-  100% {
-    background-position: 30% 20%, 70% 10%, 40% 80%, 0 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animated-mesh {
-    animation: none;
-  }
 }
 
 /* =========================================================================
@@ -228,10 +246,22 @@ body {
   font-family: var(--font-sans);
   font-size: var(--fs-md);
   line-height: var(--lh-normal);
+  font-feature-settings: 'kern' 1;
+  letter-spacing: -0.14px;
   color: var(--color-text);
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* 대형 타이포는 타이트한 음수 자간(에디토리얼 카덴스) */
+h1 {
+  letter-spacing: -1.2px;
+  line-height: var(--lh-tight);
+}
+h2 {
+  letter-spacing: -0.5px;
+  line-height: 1.15;
 }
 
 a {
@@ -248,7 +278,7 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-primary);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 

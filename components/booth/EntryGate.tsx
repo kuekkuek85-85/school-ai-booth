@@ -2,8 +2,6 @@
 /** S0 입장 게이트 — 소속(학교)·성함 입력 후 입장. 익명 인증 + localStorage 저장. */
 import { useState } from 'react';
 import { useBoothSession } from '@/lib/booth/session';
-import AuroraBackdrop from '@/components/reactbits/AuroraBackdrop';
-import GradientText from '@/components/reactbits/GradientText';
 
 export default function EntryGate() {
   const { enter } = useBoothSession();
@@ -30,48 +28,36 @@ export default function EntryGate() {
   return (
     <main
       style={{
-        position: 'relative',
-        zIndex: 1,
         minHeight: '100vh',
         display: 'grid',
         placeItems: 'center',
         padding: 'var(--space-5)',
+        background: 'var(--color-bg)',
       }}
     >
-      <AuroraBackdrop colorStops={['#38bdf8', '#22d3ee', '#6366f1']} />
       <form
         onSubmit={onSubmit}
-        className="hero-float"
+        className="color-block block-lilac"
         style={{
           width: '100%',
-          maxWidth: 420,
-          background: 'var(--color-surface)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-lg)',
-          padding: 'var(--space-6)',
+          maxWidth: 460,
           display: 'flex',
           flexDirection: 'column',
           gap: 'var(--space-4)',
         }}
       >
         <div>
-          <GradientText
-            as="h1"
-            colors={['#0ea5e9', '#6366f1', '#22d3ee', '#0ea5e9']}
-            animationSpeed={7}
-            style={{ fontSize: 'var(--fs-2xl)', marginBottom: 'var(--space-1)', fontWeight: 'var(--fw-bold)' }}
-          >
-            School AI 부스 입장
-          </GradientText>
-          <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>
+          <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>
+            School AI 부스
+          </p>
+          <h1 style={{ fontSize: 'var(--fs-2xl)', fontWeight: 'var(--fw-normal)' }}>입장하기</h1>
+          <p style={{ fontSize: 'var(--fs-md)', marginTop: 'var(--space-2)' }}>
             소속과 성함을 입력하고 입장하세요.
           </p>
         </div>
 
         <label style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-          <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)' }}>
-            소속 (학교명)
-          </span>
+          <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)' }}>소속 (학교명)</span>
           <input
             value={school}
             onChange={(e) => setSchool(e.target.value)}
@@ -82,9 +68,7 @@ export default function EntryGate() {
         </label>
 
         <label style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-          <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)' }}>
-            성함
-          </span>
+          <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)' }}>성함</span>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -94,26 +78,24 @@ export default function EntryGate() {
           />
         </label>
 
-        {error && (
-          <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-danger)' }}>{error}</p>
-        )}
+        {error && <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-danger)' }}>{error}</p>}
 
         <button
           type="submit"
           disabled={!canSubmit}
+          className={canSubmit ? 'pill pill-primary' : 'pill'}
           style={{
-            padding: 'var(--space-3) var(--space-4)',
-            borderRadius: 'var(--radius-md)',
-            background: canSubmit ? 'var(--color-primary)' : 'var(--color-surface-2)',
-            color: canSubmit ? 'var(--color-primary-contrast)' : 'var(--color-text-muted)',
-            fontWeight: 'var(--fw-bold)',
-            transition: 'background var(--dur-fast) var(--ease-standard)',
+            width: '100%',
+            textAlign: 'center',
+            ...(canSubmit
+              ? {}
+              : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', border: '1px solid var(--color-border)' }),
           }}
         >
           {busy ? '입장 중…' : '입장하기'}
         </button>
 
-        <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--color-text-muted)', lineHeight: 'var(--lh-normal)' }}>
+        <p style={{ fontSize: 'var(--fs-xs)', lineHeight: 'var(--lh-normal)' }}>
           입력한 소속·성함은 행사 진행 확인 용도로만 사용하며, 행사 종료 후 파기합니다.
         </p>
       </form>
@@ -122,7 +104,7 @@ export default function EntryGate() {
 }
 
 const inputStyle: React.CSSProperties = {
-  padding: 'var(--space-3)',
+  padding: '12px 14px',
   border: '1px solid var(--color-border)',
   borderRadius: 'var(--radius-md)',
   fontSize: 'var(--fs-md)',

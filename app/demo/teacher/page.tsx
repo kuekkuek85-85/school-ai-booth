@@ -12,7 +12,6 @@ import Toasts from '@/components/common/Toasts';
 import { useDemoDashboard, resetDemoSession } from '@/lib/demo/dashboard';
 import { useCompletionAlerts } from '@/lib/common/useCompletionAlerts';
 import { DEMO_SESSIONS, type DemoSessionId } from '@/lib/data/missions';
-import GradientText from '@/components/reactbits/GradientText';
 
 export default function DemoTeacherPage() {
   return (
@@ -56,7 +55,7 @@ function Dashboard() {
   const studentUrl = origin ? `${origin}/demo?s=${session}` : '';
 
   return (
-    <main className="theme-sos animated-mesh" style={{ minHeight: '100vh' }}>
+    <main className="theme-sos" style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
       <header
         style={{
           display: 'flex',
@@ -68,9 +67,7 @@ function Dashboard() {
           borderBottom: '1px solid var(--color-border)',
         }}
       >
-        <GradientText as="h1" colors={['#d97706', '#fbbf24', '#ec4899', '#d97706']} animationSpeed={9} style={{ fontSize: 'var(--fs-xl)', fontWeight: 'var(--fw-bold)' }}>
-          차시앱 교사 대시보드
-        </GradientText>
+        <h1 style={{ fontSize: 'var(--fs-xl)', fontWeight: 'var(--fw-bold)' }}>차시앱 교사 대시보드</h1>
 
         <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--fs-sm)' }}>
           활성 세션

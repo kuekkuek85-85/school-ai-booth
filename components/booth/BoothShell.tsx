@@ -39,8 +39,8 @@ export default function BoothShell() {
 
   return (
     <div
-      className={`${THEME_CLASS[round]} animated-mesh`}
-      style={{ minHeight: '100vh' }}
+      className={THEME_CLASS[round]}
+      style={{ minHeight: '100vh', background: 'var(--color-bg)' }}
     >
       <TopBar
         round={round}

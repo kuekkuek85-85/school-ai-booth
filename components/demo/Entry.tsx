@@ -2,8 +2,6 @@
 /** 차시앱 입장 — 5자리 학번 + 이름. localStorage 복구. */
 import { useState } from 'react';
 import { useDemoSession } from '@/lib/demo/session';
-import AuroraBackdrop from '@/components/reactbits/AuroraBackdrop';
-import GradientText from '@/components/reactbits/GradientText';
 
 export default function Entry() {
   const { enter } = useDemoSession();
@@ -28,33 +26,24 @@ export default function Entry() {
   }
 
   return (
-    <main style={{ position: 'relative', zIndex: 1, minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 'var(--space-5)' }}>
-      <AuroraBackdrop colorStops={['#fbbf24', '#f472b6', '#818cf8']} />
+    <main style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 'var(--space-5)', background: 'var(--color-bg)' }}>
       <form
         onSubmit={onSubmit}
-        className="hero-float"
+        className="color-block block-cream"
         style={{
           width: '100%',
-          maxWidth: 400,
-          background: 'var(--color-surface)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-lg)',
-          padding: 'var(--space-6)',
+          maxWidth: 440,
           display: 'flex',
           flexDirection: 'column',
           gap: 'var(--space-4)',
         }}
       >
         <div>
-          <GradientText
-            as="h1"
-            colors={['#f59e0b', '#ec4899', '#8b5cf6', '#f59e0b']}
-            animationSpeed={7}
-            style={{ fontSize: 'var(--fs-2xl)', fontWeight: 'var(--fw-bold)' }}
-          >
-            데이터를 풀어라!
-          </GradientText>
-          <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>
+          <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>
+            차시 체험앱
+          </p>
+          <h1 style={{ fontSize: 'var(--fs-2xl)', fontWeight: 'var(--fw-normal)' }}>데이터를 풀어라!</h1>
+          <p style={{ fontSize: 'var(--fs-md)', marginTop: 'var(--space-2)' }}>
             학번과 이름을 입력하고 시작하세요.
           </p>
         </div>
@@ -89,12 +78,13 @@ export default function Entry() {
         <button
           type="submit"
           disabled={!canSubmit}
+          className={canSubmit ? 'pill pill-primary' : 'pill'}
           style={{
-            padding: 'var(--space-3)',
-            borderRadius: 'var(--radius-md)',
-            fontWeight: 'var(--fw-bold)',
-            background: canSubmit ? 'var(--color-primary)' : 'var(--color-surface-2)',
-            color: canSubmit ? 'var(--color-primary-contrast)' : 'var(--color-text-muted)',
+            width: '100%',
+            textAlign: 'center',
+            ...(canSubmit
+              ? {}
+              : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', border: '1px solid var(--color-border)' }),
           }}
         >
           {busy ? '입장 중…' : '시작하기'}
@@ -107,8 +97,10 @@ export default function Entry() {
 const fieldStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' };
 const labelStyle: React.CSSProperties = { fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)' };
 const inputStyle: React.CSSProperties = {
-  padding: 'var(--space-3)',
+  padding: '12px 14px',
   border: '1px solid var(--color-border)',
   borderRadius: 'var(--radius-md)',
   fontSize: 'var(--fs-md)',
+  background: 'var(--color-surface)',
+  color: 'var(--color-text)',
 };
