@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import ClickSpark from '@/components/reactbits/ClickSpark';
 
 export const metadata: Metadata = {
   title: 'School AI 부스',
@@ -19,7 +20,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body>
+        <ClickSpark
+          sparkColor="#f59e0b"
+          sparkSize={11}
+          sparkRadius={18}
+          sparkCount={9}
+          duration={480}
+        >
+          {children}
+        </ClickSpark>
+      </body>
     </html>
   );
 }

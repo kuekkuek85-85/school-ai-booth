@@ -7,6 +7,9 @@ import { getContent } from '@/lib/data/content';
 import { activeRoundAt, ROUND_SWITCH } from '@/lib/booth/schedule';
 import { THEME_CLASS, type ContentId } from '@/lib/theme/tokens';
 import QrCode from '@/components/common/QrCode';
+import AuroraBackdrop from '@/components/reactbits/AuroraBackdrop';
+import GradientText from '@/components/reactbits/GradientText';
+import SpotlightCard from '@/components/reactbits/SpotlightCard';
 
 const ORDER: ContentId[] = ['dotvalley', 'sos'];
 
@@ -26,6 +29,8 @@ export default function RoundSelect() {
   return (
     <main
       style={{
+        position: 'relative',
+        zIndex: 1,
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -34,20 +39,28 @@ export default function RoundSelect() {
         padding: 'var(--space-6) var(--space-5)',
       }}
     >
+      <AuroraBackdrop colorStops={['#34d399', '#22d3ee', '#fbbf24']} amplitude={1.2} />
       <header style={{ textAlign: 'center' }}>
-        <h1 style={{ fontSize: 'var(--fs-2xl)' }}>회차를 선택하세요</h1>
+        <GradientText
+          as="h1"
+          colors={['#34d399', '#22d3ee', '#fbbf24', '#34d399']}
+          animationSpeed={8}
+          style={{ fontSize: 'var(--fs-3xl)', fontWeight: 'var(--fw-bold)' }}
+        >
+          회차를 선택하세요
+        </GradientText>
         {profile && (
-          <p style={{ color: 'var(--color-text-muted)', marginTop: 'var(--space-2)' }}>
+          <p style={{ color: 'rgba(255,255,255,0.75)', marginTop: 'var(--space-2)' }}>
             {profile.school} · {profile.name} 님 환영합니다
           </p>
         )}
         {activeRound && (
           <p
+            className="glass-panel"
             style={{
               marginTop: 'var(--space-3)',
               display: 'inline-block',
               fontSize: 'var(--fs-sm)',
-              background: 'var(--color-surface-2)',
               borderRadius: 'var(--radius-full)',
               padding: 'var(--space-2) var(--space-4)',
             }}
@@ -81,18 +94,26 @@ export default function RoundSelect() {
           const lockMsg =
             cid === 'sos' ? `🔒 ${ROUND_SWITCH.label}부터 활성화됩니다` : '🔒 마감된 회차입니다';
           return (
-            <button
+            <SpotlightCard
               key={cid}
+              className={THEME_CLASS[cid]}
+              spotlightColor={locked ? 'rgba(255, 255, 255, 0.06)' : 'rgba(255, 255, 255, 0.35)'}
+              style={{ borderRadius: 'var(--radius-lg)', display: 'flex' }}
+            >
+            <button
               className={THEME_CLASS[cid]}
               onClick={() => !locked && selectRound(cid)}
               disabled={locked}
               aria-disabled={locked}
               style={{
+                width: '100%',
                 textAlign: 'left',
                 background: locked ? 'var(--color-surface-2)' : 'var(--color-surface)',
                 border: `2px solid ${locked ? 'var(--color-border)' : 'var(--color-primary)'}`,
                 borderRadius: 'var(--radius-lg)',
-                boxShadow: locked ? 'none' : 'var(--shadow-md)',
+                boxShadow: locked
+                  ? 'none'
+                  : '0 0 0 1px color-mix(in srgb, var(--color-primary) 40%, transparent), 0 18px 48px -14px color-mix(in srgb, var(--color-primary) 65%, transparent)',
                 padding: 'var(--space-6)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -140,6 +161,7 @@ export default function RoundSelect() {
                 {locked ? lockMsg : '이 회차로 입장 →'}
               </span>
             </button>
+            </SpotlightCard>
           );
         })}
       </div>

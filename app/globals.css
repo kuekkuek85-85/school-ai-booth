@@ -161,6 +161,51 @@
 }
 
 /* =========================================================================
+   react-bits 연동 — 히어로 다크 백드롭 위 글래스/글로우 유틸
+   ========================================================================= */
+
+/* 다크 오로라 위에 떠 보이는 반투명 유리 표면 */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.55);
+  color: var(--color-text-invert);
+}
+
+/* 밝은 카드가 다크 배경 위에서 살짝 떠 보이도록 그림자 강화 */
+.hero-float {
+  box-shadow: 0 20px 60px -18px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* 콘텐츠 페이지용: 은은하게 흐르는 CSS 그라디언트 배경(WebGL 불필요) */
+.animated-mesh {
+  background:
+    radial-gradient(60% 80% at 12% 10%, color-mix(in srgb, var(--color-primary) 16%, transparent) 0%, transparent 60%),
+    radial-gradient(55% 70% at 88% 8%, color-mix(in srgb, var(--color-accent) 20%, transparent) 0%, transparent 55%),
+    radial-gradient(70% 90% at 50% 110%, color-mix(in srgb, var(--color-primary) 12%, transparent) 0%, transparent 60%),
+    var(--color-bg);
+  background-size: 180% 180%, 180% 180%, 180% 180%, auto;
+  animation: mesh-drift 22s ease-in-out infinite alternate;
+}
+
+@keyframes mesh-drift {
+  0% {
+    background-position: 0% 0%, 100% 0%, 50% 100%, 0 0;
+  }
+  100% {
+    background-position: 30% 20%, 70% 10%, 40% 80%, 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-mesh {
+    animation: none;
+  }
+}
+
+/* =========================================================================
    기본 리셋
    ========================================================================= */
 *,

@@ -2,6 +2,8 @@
 /** 차시앱 입장 — 5자리 학번 + 이름. localStorage 복구. */
 import { useState } from 'react';
 import { useDemoSession } from '@/lib/demo/session';
+import AuroraBackdrop from '@/components/reactbits/AuroraBackdrop';
+import GradientText from '@/components/reactbits/GradientText';
 
 export default function Entry() {
   const { enter } = useDemoSession();
@@ -26,16 +28,17 @@ export default function Entry() {
   }
 
   return (
-    <main style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 'var(--space-5)' }}>
+    <main style={{ position: 'relative', zIndex: 1, minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 'var(--space-5)' }}>
+      <AuroraBackdrop colorStops={['#fbbf24', '#f472b6', '#818cf8']} />
       <form
         onSubmit={onSubmit}
+        className="hero-float"
         style={{
           width: '100%',
           maxWidth: 400,
           background: 'var(--color-surface)',
           border: '1px solid var(--color-border)',
           borderRadius: 'var(--radius-lg)',
-          boxShadow: 'var(--shadow-md)',
           padding: 'var(--space-6)',
           display: 'flex',
           flexDirection: 'column',
@@ -43,7 +46,14 @@ export default function Entry() {
         }}
       >
         <div>
-          <h1 style={{ fontSize: 'var(--fs-xl)' }}>데이터를 풀어라!</h1>
+          <GradientText
+            as="h1"
+            colors={['#f59e0b', '#ec4899', '#8b5cf6', '#f59e0b']}
+            animationSpeed={7}
+            style={{ fontSize: 'var(--fs-2xl)', fontWeight: 'var(--fw-bold)' }}
+          >
+            데이터를 풀어라!
+          </GradientText>
           <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>
             학번과 이름을 입력하고 시작하세요.
           </p>

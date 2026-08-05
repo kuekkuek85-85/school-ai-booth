@@ -9,6 +9,7 @@ import { resetBoothSession, useBoothDashboard } from '@/lib/booth/dashboard';
 import { useCompletionAlerts } from '@/lib/common/useCompletionAlerts';
 import { BOOTH_ROUNDS } from '@/lib/data/missions';
 import { THEME_CLASS, type ContentId } from '@/lib/theme/tokens';
+import GradientText from '@/components/reactbits/GradientText';
 
 const TABS: ContentId[] = ['dotvalley', 'sos'];
 
@@ -47,7 +48,7 @@ function Dashboard() {
   }
 
   return (
-    <main className={THEME_CLASS[tab]} style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
+    <main className={`${THEME_CLASS[tab]} animated-mesh`} style={{ minHeight: '100vh' }}>
       <header
         style={{
           display: 'flex',
@@ -59,7 +60,9 @@ function Dashboard() {
           borderBottom: '1px solid var(--color-border)',
         }}
       >
-        <h1 style={{ fontSize: 'var(--fs-xl)' }}>강사 대시보드</h1>
+        <GradientText as="h1" colors={['#2563eb', '#22d3ee', '#8b5cf6', '#2563eb']} animationSpeed={9} style={{ fontSize: 'var(--fs-xl)', fontWeight: 'var(--fw-bold)' }}>
+          강사 대시보드
+        </GradientText>
         <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
           {TABS.map((cid) => {
             const r = BOOTH_ROUNDS[cid];

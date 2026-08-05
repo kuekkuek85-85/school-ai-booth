@@ -1,0 +1,27 @@
+.rb-gradient-text {
+  display: inline-block;
+  background-size: 300% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation-name: rb-gradient-move;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rb-gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-gradient-text {
+    animation: none;
+    background-position: 0% 50%;
+  }
+}

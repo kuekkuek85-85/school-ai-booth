@@ -8,6 +8,7 @@ import ProgressBar from '@/components/demo/ProgressBar';
 import PeerBoard from '@/components/demo/PeerBoard';
 import StandardChip from '@/components/common/StandardChip';
 import { standardText } from '@/lib/data/standards';
+import GradientText from '@/components/reactbits/GradientText';
 import type { WorksheetSpec } from '@/lib/demo/worksheet';
 
 export default function LessonHome({ spec }: { spec: WorksheetSpec }) {
@@ -16,11 +17,13 @@ export default function LessonHome({ spec }: { spec: WorksheetSpec }) {
   const total = spec.steps.length + 1; // 단계 + 형성평가
 
   return (
-    <main className="theme-sos" style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
+    <main className="theme-sos animated-mesh" style={{ minHeight: '100vh' }}>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: 'var(--space-6) var(--space-5)', display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
         <header style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-            <h1 style={{ fontSize: 'var(--fs-2xl)' }}>{spec.title}</h1>
+            <GradientText as="h1" colors={['#d97706', '#fbbf24', '#f59e0b', '#d97706']} animationSpeed={9} style={{ fontSize: 'var(--fs-2xl)', fontWeight: 'var(--fw-bold)' }}>
+              {spec.title}
+            </GradientText>
             {profile && (
               <span style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>
                 {profile.studentNo} · {profile.name}

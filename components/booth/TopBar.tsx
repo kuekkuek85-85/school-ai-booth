@@ -2,6 +2,12 @@
 /** 상단 고정 바 — 회차명 · 섹션 내비. */
 import { BOOTH_ROUNDS } from '@/lib/data/missions';
 import type { ContentId } from '@/lib/theme/tokens';
+import GradientText from '@/components/reactbits/GradientText';
+
+const TITLE_COLORS: Record<ContentId, string[]> = {
+  dotvalley: ['#16a34a', '#4ade80', '#22d3ee', '#16a34a'],
+  sos: ['#d97706', '#fbbf24', '#f59e0b', '#d97706'],
+};
 
 export interface SectionMeta {
   id: string;
@@ -63,7 +69,9 @@ export default function TopBar({
         >
           {r.time}
         </span>
-        {r.title}
+        <GradientText colors={TITLE_COLORS[round]} animationSpeed={9} style={{ fontWeight: 'var(--fw-bold)' }}>
+          {r.title}
+        </GradientText>
       </button>
 
       <nav

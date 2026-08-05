@@ -2,6 +2,8 @@
 /** S0 입장 게이트 — 소속(학교)·성함 입력 후 입장. 익명 인증 + localStorage 저장. */
 import { useState } from 'react';
 import { useBoothSession } from '@/lib/booth/session';
+import AuroraBackdrop from '@/components/reactbits/AuroraBackdrop';
+import GradientText from '@/components/reactbits/GradientText';
 
 export default function EntryGate() {
   const { enter } = useBoothSession();
@@ -28,21 +30,24 @@ export default function EntryGate() {
   return (
     <main
       style={{
+        position: 'relative',
+        zIndex: 1,
         minHeight: '100vh',
         display: 'grid',
         placeItems: 'center',
         padding: 'var(--space-5)',
       }}
     >
+      <AuroraBackdrop colorStops={['#38bdf8', '#22d3ee', '#6366f1']} />
       <form
         onSubmit={onSubmit}
+        className="hero-float"
         style={{
           width: '100%',
           maxWidth: 420,
           background: 'var(--color-surface)',
           border: '1px solid var(--color-border)',
           borderRadius: 'var(--radius-lg)',
-          boxShadow: 'var(--shadow-md)',
           padding: 'var(--space-6)',
           display: 'flex',
           flexDirection: 'column',
@@ -50,9 +55,14 @@ export default function EntryGate() {
         }}
       >
         <div>
-          <h1 style={{ fontSize: 'var(--fs-xl)', marginBottom: 'var(--space-1)' }}>
+          <GradientText
+            as="h1"
+            colors={['#0ea5e9', '#6366f1', '#22d3ee', '#0ea5e9']}
+            animationSpeed={7}
+            style={{ fontSize: 'var(--fs-2xl)', marginBottom: 'var(--space-1)', fontWeight: 'var(--fw-bold)' }}
+          >
             School AI 부스 입장
-          </h1>
+          </GradientText>
           <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-text-muted)' }}>
             소속과 성함을 입력하고 입장하세요.
           </p>
