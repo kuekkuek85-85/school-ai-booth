@@ -1,0 +1,51 @@
+# REVIEW.md — 수용 기준 대조 & 마감 게이트
+
+검토: Claude CLI / 대상 행사 2026-08-06. 범례: ✅ 검증 완료 · 🧩 코드 구현 완료(라이브 검증 대기) · ⏳ 사용자 작업 필요
+
+## 최종 게이트 (요약)
+- ✅ `npm run build` / `npm run typecheck` 통과 (전 태스크)
+- ✅ 서버 라우트 라이브 검증: `/api/verify-pin`(정답 `{ok:true}`/오답 `{ok:false}`), `/api/feedback`(Gemini 도달도·한줄 피드백 생성 확인)
+- ✅ 데이터 정합성: 대단원 5 · 성취기준 25 · 활동 232 · 차시 18, 부스 6미션·차시앱 4단계 딥링크 전부 실제 활동으로 해석
+- ⏳ **Firestore 규칙 배포**(콘솔) 후에야 도장·대시보드 실시간 쓰기가 동작 → 아래 🧩 항목의 라이브 확인 가능
+- ⏳ **Vercel 프로덕션 배포** + `NEXT_PUBLIC_SURVEY_URL` 실값 주입 + QR 스캔 테스트(모바일)
+
+## 부스 플랫폼 수용 기준 (PRD-schoolai-booth §8)
+| # | 기준 | 상태 | 근거/비고 |
+|---|---|---|---|
+| 1 | 회차 선택 후 새로고침 유지 | 🧩 | 해시 라우팅(#dotvalley/#sos) + localStorage 복구 구현 |
+| 2 | M1 딥링크 새 탭 열림(232 렌더) | ✅/🧩 | 딥링크 데이터 232개 해석 PASS, `target=_blank rel=noopener` 렌더 |
+| 3 | 그래프 성취기준→차시→활동→딥링크 4클릭 이내·재구성안 구분 | 🧩 | 점진 확장·간선 구분(점선/굵기) 구현, 브라우저 확인 대기 |
+| 4 | 재구성 바구니 3개→마크다운 복사 | 🧩 | 담기/빼기·MD 내보내기(clipboard) 구현 |
+| 5 | 도장 3개 배지·리셋 | 🧩 | 낙관적 토글+Firestore, 규칙 배포 후 확인 |
+| 6 | 발표 모드 키보드·타이머 | ✅ | ←/→·스페이스·P빔, 세션30·미션18 타이머(3분 경고) |
+| 7 | SURVEY_URL·DEMO_LESSON_URL 상수 1곳 교체 | ✅ | `lib/constants.ts` 단일 지점(+env override) |
+| 8 | 자료실 PDF 4종·초중고 링크 | 🧩 | `guides`/`saiCatalog` URL 렌더, 실제 다운로드 브라우저 확인 대기 |
+| 9 | 입장→도장→/teacher 1초 반영·복구·리셋 파기 | 🧩 | onSnapshot 구현, 규칙 배포 후 확인 |
+
+## 시연 차시앱 수용 기준 (PRD-lesson-demo §7)
+| # | 기준 | 상태 | 근거/비고 |
+|---|---|---|---|
+| 1 | 입장→4활동 딥링크→완료→대시보드 1초 | 🧩 | 세계수 2차시 활동 1·2·7·8 해석 PASS, 규칙 배포 후 확인 |
+| 2 | 형성평가 자동채점·정답률·단답/산출물 Gemini 5초 내 | ✅/🧩 | 객관식 자동채점 구현, **Gemini 피드백 라이브 검증 PASS**(도달도 '상' 생성) |
+| 3 | 산출물 대시보드 리스트·마스킹 | 🧩 | AnswerList·마스킹 구현 |
+| 4 | 세션 리셋·activeSession 전환 | 🧩 | 세션 셀렉터+학생 QR(`?s=`)·리셋 구현 |
+| 5 | 새로고침 복구 | 🧩 | localStorage 프로필+익명 uid 지속 |
+
+## 보안·개인정보 점검
+- ✅ 키 하드코딩 없음: Firebase는 `NEXT_PUBLIC_*`(웹 설정 공개 정상), GEMINI/PIN은 서버 전용(`.env`, gitignore). `git ls-files`에 `.env` 없음.
+- ✅ PIN 미노출: `/api/verify-pin` 서버 비교, 클라이언트 번들에 PIN 없음.
+- 🧩 Firestore 규칙: 익명 uid 소유권(본인 문서만 create/update). **삭제(리셋)는 데모 수준으로 인증 사용자 허용**(Admin SDK 서버 라우트 미구성) — 행사 종료 후 데이터·규칙 폐기 전제. 관측된 개인정보는 소속·성함·학번·이름뿐, 리셋=파기.
+- ✅ 리셋=파기 동작: participants/students·progress 일괄 deleteDoc.
+
+## PLAN.md 준수
+- 단일 앱 구조·`lib/{firebase,theme,data}` 모듈·`components/{booth,demo,common}` 네임스페이스 등 PLAN 1장 트리 준수.
+- 경미한 편차: `next.config.mjs`(계획의 .mjs와 동일), Gemini 모델은 사용 가능 모델 `gemini-flash-latest`로 확정(계획엔 미명시).
+
+## 행사 당일 리스크 점검
+- 네트워크 순단: 도장/진행은 localStorage 캐시+낙관적 UI+1회 재시도. 딥링크는 새 탭(앱 상태 보존).
+- 세션 전환(12:00→15:00): 부스는 회차 해시에 세션ID 결정론적 바인딩(사람이 고를 여지 없음). 차시앱은 대시보드 셀렉터 1개+확인 다이얼로그. 리셋은 현재 세션만.
+
+## 남은 작업(사용자)
+1. Firestore 규칙 콘솔 게시 → 도장·대시보드 라이브 확인
+2. Vercel 프로덕션 배포 + 환경변수 주입 + `NEXT_PUBLIC_SURVEY_URL` 실값
+3. 배포 URL로 QR 스캔(모바일)·딥링크 표본·PDF 다운로드 최종 확인
